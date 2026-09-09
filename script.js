@@ -26,32 +26,158 @@ const gateRight = $('#gate-right');
 
 const platforms = [
     {
+        name: 'Billion Balls',
+        image: 'BillionBalls.jpg',
+        url: 'https://billionballs.win/',
+        className: 'platform-billion-balls',
+        accent: '#45d6a8'
+    },
+    {
+        name: 'Blue Dragon',
+        image: 'BlueDragon.jpg',
+        url: 'http://app.bluedragon777.com/',
+        className: 'platform-blue-dragon',
+        accent: '#4b9dff'
+    },
+    {
+        name: 'Cash Frenzy',
+        image: 'CashFrenzy.png',
+        url: 'https://www.cashfrenzy777.com/',
+        className: 'platform-cash',
+        accent: '#ffd34e'
+    },
+    {
+        name: 'Cash Machine',
+        image: 'CashMachine.jpg',
+        url: 'https://www.cashmachine777.com/',
+        className: 'platform-cash-machine',
+        accent: '#f4a642'
+    },
+    {
+        name: 'Eldorado',
+        image: 'Eldorado.jpg',
+        url: 'https://www.eldorado777.co/login',
+        className: 'platform-eldorado',
+        accent: '#e5bd52'
+    },
+    {
         name: 'FireKirin',
         image: 'FireKirin.jpg',
-        url: 'http://start.firekirin.xyz:8580/index.html',
+        url: 'https://start.firekirin.xyz:8580/',
         className: 'platform-firekirin',
         accent: '#ff4b4b'
     },
     {
-        name: 'ParaCasino',
-        image: 'ParaCasino.jpg',
-        url: 'https://download.paracasino.net//',
-        className: 'platform-paracasino',
-        accent: '#f0a83c'
+        name: 'Funstation',
+        image: 'Funstation.jpg',
+        url: 'https://www.funstation.site/download/',
+        className: 'platform-funstation',
+        accent: '#ff6c9d'
     },
     {
-        name: 'Orionstar',
-        image: 'OrionStar.jpeg',
-        url: 'https://www.orionstarsonline.com/',
-        className: 'platform-orion',
-        accent: '#4bb3ff'
+        name: 'Game Room',
+        image: 'GameRoom.jpg',
+        url: 'https://www.gameroom777.com/',
+        className: 'platform-game-room',
+        accent: '#6e8cff'
+    },
+    {
+        name: 'GameVault',
+        image: 'GameVault.jpg',
+        url: 'https://gamevault999.com/',
+        className: 'platform-gamevault',
+        accent: '#45e0ff'
+    },
+    {
+        name: 'Hi-Rollin',
+        image: 'Hi-Rollin.jpg',
+        url: 'https://hi-rollin.online/download',
+        className: 'platform-hi-rollin',
+        accent: '#d9a441'
+    },
+    {
+        name: 'Joker',
+        image: 'Joker.jpg',
+        url: 'https://www.joker777.win/',
+        className: 'platform-joker',
+        accent: '#b875ff'
     },
     {
         name: 'Juwa',
         image: 'JUWA.jpg',
-        url: 'https://dl.juwa777.com/',
+        url: 'https://juwa777.com/juwa',
         className: 'platform-juwa',
         accent: '#9d6cff'
+    },
+    {
+        name: 'Juwa 2.0',
+        image: 'Juwa2.jpg',
+        url: 'https://juwa777.com/juwa',
+        className: 'platform-juwa-2',
+        accent: '#c06cff'
+    },
+    {
+        name: 'Mafia',
+        image: 'Mafia.jpg',
+        url: 'https://mafia77777.com/m',
+        className: 'platform-mafia',
+        accent: '#e15d5d'
+    },
+    {
+        name: 'Medusa',
+        image: 'Medusa.jpg',
+        url: 'https://medusa777.com/',
+        className: 'platform-medusa',
+        accent: '#d96cff'
+    },
+    {
+        name: 'Milky Way',
+        image: 'Milkyway.jpg',
+        url: 'https://milkywayapp.xyz/',
+        className: 'platform-milky-way',
+        accent: '#79b7ff'
+    },
+    {
+        name: 'MR.Allinone',
+        image: 'AllinOne.jpeg',
+        url: 'https://www.mrallinone777.com/',
+        className: 'platform-allinone',
+        accent: '#55a7ff'
+    },
+    {
+        name: 'Orion Star',
+        image: 'OrionStar.jpeg',
+        url: 'http://start.orionstars.vip:8580/',
+        className: 'platform-orion',
+        accent: '#4bb3ff'
+    },
+    {
+        name: 'Panda Master',
+        image: 'Pandamaster.jpg',
+        url: 'https://pandamaster.vip:8888/',
+        className: 'platform-panda',
+        accent: '#f05d8b'
+    },
+    {
+        name: 'Panda Power',
+        image: 'PandaPower.jpg',
+        url: 'https://dev.pandapower777.com/login/',
+        className: 'platform-panda-power',
+        accent: '#67d8a1'
+    },
+    {
+        name: 'SpinCity',
+        image: 'SpinCity.jpg',
+        url: 'https://play.spincity777.vip/',
+        className: 'platform-spincity',
+        accent: '#ff709d'
+    },
+    {
+        name: 'Ultra Panda',
+        image: 'UltraPanda.jpg',
+        url: 'https://www.ultrapanda.club/',
+        className: 'platform-ultra-panda',
+        accent: '#62d9b1'
     },
     {
         name: 'Vblink',
@@ -61,39 +187,25 @@ const platforms = [
         accent: '#24d5a5'
     },
     {
-        name: 'Pandmaster',
-        image: 'Pandamaster.jpg',
-        url: 'https://www.pandamaster.vip:8888/index.html',
-        className: 'platform-panda',
-        accent: '#f05d8b'
+        name: 'Vegas Sweeps',
+        image: 'VegasSweeps.jpg',
+        url: 'https://m.lasvegassweeps.com/',
+        className: 'platform-vegas-sweeps',
+        accent: '#f0c04f'
     },
     {
-        name: 'CashFrenzy',
-        image: 'CashFrenzy.png',
-        url: 'https://www.cashfrenzy777.com',
-        className: 'platform-cash',
-        accent: '#ffd34e'
+        name: 'Winners Club',
+        image: 'WinnersClub.jpg',
+        url: 'https://www.winnersclub777.com/',
+        className: 'platform-winners-club',
+        accent: '#6bd58f'
     },
     {
-        name: 'MR.Allinone',
-        image: 'AllinOne.jpeg',
-        url: 'https://www.mrallinone777.com',
-        className: 'platform-allinone',
-        accent: '#55a7ff'
-    },
-    {
-        name: 'Medusa',
-        image: 'Medusa.jpg',
-        url: 'https://medusa777.com',
-        className: 'platform-medusa',
-        accent: '#d96cff'
-    },
-    {
-        name: 'GameVault',
-        image: 'GameVault.jpg',
-        url: 'http://download.gamevault999.com/',
-        className: 'platform-gamevault',
-        accent: '#45e0ff'
+        name: 'YOLO',
+        image: 'YOLO.jpg',
+        url: 'https://yolo777.game/',
+        className: 'platform-yolo',
+        accent: '#ff8c5a'
     }
 ];
 
@@ -101,7 +213,7 @@ const platformGrid = $('#platform-grid');
 
 if (platformGrid) {
     platformGrid.innerHTML = platforms.map((platform, index) => `
-        <a class="platform-card ${platform.className}" style="--accent:${platform.accent}" href="${platform.url}">
+        <a class="platform-card ${platform.className}" style="--accent:${platform.accent}" href="${platform.url}" target="_blank" rel="noopener noreferrer">
             <span class="platform-number">${String(index + 1).padStart(2, '0')}</span>
             <img class="platform-image" src="images/platforms/${encodeURIComponent(platform.image)}" alt="${platform.name} platform" loading="lazy">
             <span class="platform-name">${platform.name}</span>
