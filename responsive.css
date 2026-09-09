@@ -7,6 +7,483 @@
 ========================================================= */
 
 /* =========================================================
+   RULES + CONTACT SHARED PAGE DESIGN
+========================================================= */
+
+.rules-page,
+.contact-page {
+    background:
+        radial-gradient(circle at 12% 12%, rgba(22, 143, 61, .12), transparent 28%),
+        radial-gradient(circle at 88% 28%, rgba(245, 190, 65, .08), transparent 26%),
+        #0c1015;
+}
+
+.rules-hero,
+.contact-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 105px 20px 85px;
+    text-align: center;
+    background:
+        linear-gradient(135deg, rgba(7, 12, 17, .96), rgba(20, 31, 27, .92)),
+        url("images/backgrounds/background.png") center / cover no-repeat;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.rules-hero::before,
+.contact-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(101, 223, 140, .08), transparent);
+    pointer-events: none;
+}
+
+.rules-hero-content,
+.contact-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.rules-eyebrow,
+.contact-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 17px;
+    color: #72e79a;
+    font-size: .74rem;
+    font-weight: 800;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+
+.rules-eyebrow::before,
+.rules-eyebrow::after,
+.contact-eyebrow::before,
+.contact-eyebrow::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: #3caf68;
+}
+
+.rules-hero h1,
+.contact-hero h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.7rem, 7vw, 5rem);
+    line-height: 1;
+    letter-spacing: -.045em;
+    text-shadow: 0 10px 35px rgba(0, 0, 0, .4);
+}
+
+.rules-hero p,
+.contact-hero p {
+    max-width: 680px;
+    margin: 21px auto 0;
+    color: #aeb8c4;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   RULES PAGE
+========================================================= */
+
+.rules-content {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 65px 0 85px;
+}
+
+.rules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.rules-card {
+    position: relative;
+    overflow: hidden;
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(29, 37, 43, .96), rgba(13, 18, 23, .98));
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .035);
+    transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+}
+
+.rules-card::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -80px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(22, 143, 61, .1);
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+.rules-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(101, 223, 140, .28);
+    box-shadow: 0 28px 65px rgba(0, 0, 0, .38), 0 0 35px rgba(22, 143, 61, .06);
+}
+
+.rules-card-wide {
+    grid-column: 1 / -1;
+}
+
+.rules-card-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.rules-icon {
+    display: grid;
+    flex: 0 0 54px;
+    width: 54px;
+    height: 54px;
+    place-items: center;
+    border: 1px solid rgba(101, 223, 140, .3);
+    border-radius: 17px;
+    background: linear-gradient(145deg, rgba(22, 143, 61, .22), rgba(22, 143, 61, .06));
+    color: #72e79a;
+    font-size: 1.4rem;
+    font-weight: 900;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .2);
+}
+
+.rules-card h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.rules-card-subtitle {
+    margin: 5px 0 0;
+    color: #778290;
+    font-size: .86rem;
+}
+
+.rules-list {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rules-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 52px;
+    padding: 13px 16px;
+    border: 1px solid rgba(255, 255, 255, .055);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .035);
+    color: #cdd4dc;
+    line-height: 1.4;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.rules-list li:hover {
+    border-color: rgba(101, 223, 140, .16);
+    background: rgba(101, 223, 140, .055);
+}
+
+.rules-list strong,
+.cashout-value {
+    color: #72e79a;
+    font-size: 1.02rem;
+    font-weight: 900;
+}
+
+.cashout-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.cashout-item {
+    min-height: 150px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, .07);
+    border-radius: 17px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .018));
+}
+
+.cashout-item h3 {
+    margin: 0 0 16px;
+    color: #fff;
+    font-size: .98rem;
+}
+
+.cashout-item p {
+    margin: 9px 0;
+    color: #9fa9b5;
+    font-size: .9rem;
+    line-height: 1.55;
+}
+
+.rules-warning {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    margin-top: 20px;
+    padding: 12px 18px;
+    border: 1px solid rgba(255, 92, 92, .25);
+    border-radius: 14px;
+    background: linear-gradient(90deg, rgba(104, 27, 27, .22), rgba(154, 34, 34, .1));
+    color: #ff9f9f;
+    font-size: .76rem;
+    font-weight: 900;
+    letter-spacing: .12em;
+    text-align: center;
+}
+
+/* =========================================================
+   CONTACT PAGE
+========================================================= */
+
+.contact-content {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 65px 0 85px;
+}
+
+.contact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+    gap: 24px;
+    align-items: stretch;
+}
+
+.contact-card,
+.team-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(29, 37, 43, .96), rgba(13, 18, 23, .98));
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .035);
+}
+
+.contact-card::before,
+.team-card::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -90px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(22, 143, 61, .08);
+    filter: blur(5px);
+    pointer-events: none;
+}
+
+.contact-card {
+    padding: 36px;
+}
+
+.contact-card-label,
+.team-label {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 9px;
+    color: #72e79a;
+    font-size: .72rem;
+    font-weight: 900;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+}
+
+.contact-card h2,
+.team-card h2 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #fff;
+    font-size: 1.8rem;
+}
+
+.contact-card > p:not(.contact-card-label):not(.social-title),
+.team-description {
+    position: relative;
+    z-index: 1;
+    margin: 14px 0 28px;
+    color: #aeb7c2;
+    line-height: 1.75;
+}
+
+.contact-details {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 12px;
+}
+
+.contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 72px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, .07);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .035);
+    color: #e8edf2;
+    transition: transform .22s ease, border-color .22s ease, background .22s ease;
+}
+
+.contact-detail:hover {
+    transform: translateY(-2px);
+    border-color: rgba(101, 223, 140, .24);
+    background: rgba(101, 223, 140, .045);
+}
+
+.contact-detail-icon {
+    display: grid;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid rgba(101, 223, 140, .2);
+    border-radius: 13px;
+    background: rgba(22, 143, 61, .13);
+    color: #72e79a;
+    font-weight: 900;
+}
+
+.contact-detail small {
+    display: block;
+    margin-bottom: 4px;
+    color: #74808d;
+    font-size: .67rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.contact-detail span {
+    overflow-wrap: anywhere;
+}
+
+.social-title {
+    position: relative;
+    z-index: 1;
+    margin: 30px 0 13px;
+    color: #fff;
+    font-size: .9rem;
+    font-weight: 800;
+}
+
+.social-links {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 9px 15px;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, .035);
+    color: #fff;
+    font-size: .9rem;
+    font-weight: 800;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease;
+}
+
+.social-link:hover {
+    transform: translateY(-3px);
+    border-color: rgba(101, 223, 140, .22);
+    background: rgba(22, 143, 61, .12);
+}
+
+.social-link .fa {
+    width: auto;
+    height: auto;
+    margin: 0;
+    background: transparent;
+    font-size: 1.15rem;
+}
+
+.team-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.team-card-image {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #11161b;
+}
+
+.team-card-body {
+    position: relative;
+    z-index: 1;
+    padding: 30px 32px 32px;
+}
+
+.team-role {
+    margin: 7px 0 14px;
+    color: #8e9aa7;
+    font-size: .92rem;
+    font-weight: 800;
+}
+
+.contact-email-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 18px;
+    border: 1px solid rgba(101, 223, 140, .3);
+    border-radius: 13px;
+    background: linear-gradient(135deg, #168f3d, #116c31);
+    color: #fff;
+    font-weight: 900;
+    box-shadow: 0 10px 25px rgba(22, 143, 61, .2);
+    transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+}
+
+.contact-email-button:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.08);
+    box-shadow: 0 15px 32px rgba(22, 143, 61, .3);
+}
+
+/* =========================================================
    TABLETS / SMALL DESKTOPS
 ========================================================= */
 
@@ -32,7 +509,6 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Keep the parallax layers inside the viewport on tablets. */
     .parallax img#gate-left {
         left: -24%;
     }
@@ -40,6 +516,24 @@
     .parallax img#gate-right {
         right: -24%;
         left: auto;
+    }
+}
+
+@media (max-width: 900px) {
+    .rules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rules-card-wide {
+        grid-column: auto;
+    }
+
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .team-card-image {
+        aspect-ratio: 2 / 1;
     }
 }
 
@@ -99,11 +593,6 @@
         white-space: normal;
     }
 
-    /*
-       Mobile parallax uses viewport-sized layers instead of the old
-       desktop-only fixed left offsets. JavaScript still supplies the
-       scroll movement; these rules keep the layers correctly positioned.
-    */
     .parallax img {
         width: 120%;
         height: 100%;
@@ -135,6 +624,35 @@
     .platform-list {
         grid-template-columns: repeat(2, minmax(140px, 1fr));
         padding: 20px 18px 55px;
+    }
+
+    .rules-content,
+    .contact-content {
+        width: min(100% - 30px, 650px);
+        padding: 48px 0 60px;
+    }
+
+    .rules-hero,
+    .contact-hero {
+        padding: 82px 20px 68px;
+    }
+
+    .rules-card,
+    .contact-card {
+        padding: 26px;
+        border-radius: 20px;
+    }
+
+    .rules-card-wide {
+        padding: 26px;
+    }
+
+    .cashout-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .team-card-body {
+        padding: 26px;
     }
 
     .rules-section {
@@ -242,6 +760,98 @@
         grid-template-columns: 1fr;
     }
 
+    .rules-hero,
+    .contact-hero {
+        padding: 72px 16px 58px;
+    }
+
+    .rules-content,
+    .contact-content {
+        width: min(100% - 24px, 600px);
+        padding: 38px 0 52px;
+    }
+
+    .rules-hero h1,
+    .contact-hero h1 {
+        font-size: clamp(2.35rem, 13vw, 3.4rem);
+    }
+
+    .rules-hero p,
+    .contact-hero p {
+        font-size: .92rem;
+        line-height: 1.65;
+    }
+
+    .rules-card,
+    .rules-card-wide,
+    .contact-card {
+        padding: 21px;
+        border-radius: 18px;
+    }
+
+    .rules-card-header {
+        gap: 12px;
+        margin-bottom: 19px;
+    }
+
+    .rules-icon {
+        flex-basis: 46px;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+    }
+
+    .rules-card h2,
+    .contact-card h2,
+    .team-card h2 {
+        font-size: 1.35rem;
+    }
+
+    .rules-list li {
+        min-height: 48px;
+        padding: 12px 13px;
+    }
+
+    .cashout-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .cashout-item {
+        min-height: auto;
+        padding: 17px;
+    }
+
+    .rules-warning {
+        padding: 12px;
+        font-size: .67rem;
+        letter-spacing: .08em;
+    }
+
+    .contact-detail {
+        min-height: 66px;
+        padding: 12px;
+    }
+
+    .social-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .social-link {
+        justify-content: center;
+        padding: 10px 8px;
+        font-size: .82rem;
+    }
+
+    .team-card-image {
+        aspect-ratio: 16 / 10;
+    }
+
+    .team-card-body {
+        padding: 22px;
+    }
+
     .rule-card {
         padding: 22px;
     }
@@ -275,7 +885,11 @@
     .platform-card,
     .platform-image,
     .gallery-play,
-    .thumb {
+    .thumb,
+    .rules-card,
+    .contact-detail,
+    .social-link,
+    .contact-email-button {
         transition: none;
     }
 }
