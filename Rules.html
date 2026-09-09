@@ -8,8 +8,9 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="rules.css">
 </head>
-<body>
+<body class="rules-page">
     <header class="site-header">
         <a href="index.html" class="logo-link" aria-label="GKing Eldorad home">
             <img src="images/logo/GKlogo.jpg" class="logo" alt="GKing Eldorad logo">
@@ -30,66 +31,90 @@
     </header>
 
     <main>
-        <section class="page-hero">
-            <span>GAME INFORMATION</span>
-            <h1>Our Rules</h1>
-            <p>Please review the following information before using the available platforms.</p>
+        <section class="rules-hero">
+            <div class="rules-hero-content">
+                <span class="rules-eyebrow">Game Information</span>
+                <h1>Rules &amp; Limits</h1>
+                <p>Please review the following information before using the available platforms.</p>
+            </div>
         </section>
 
-        <section class="rules-section" aria-label="Gaming rules">
-            <article class="rule-card">
-                <div class="rule-icon">%</div>
-                <h2>Bonuses</h2>
-                <ul>
-                    <li><strong>50%</strong> Sign Up</li>
-                    <li><strong>10%</strong> Regular</li>
-                    <li><strong>25%</strong> Referral</li>
-                </ul>
-            </article>
-
-            <article class="rule-card">
-                <div class="rule-icon">$</div>
-                <h2>Deposit Rules</h2>
-                <ul>
-                    <li>Minimum <strong>$5</strong> for regular clients</li>
-                    <li>Minimum <strong>$10</strong> for new clients</li>
-                    <li>Minimum <strong>$20</strong> for referral clients</li>
-                </ul>
-            </article>
-
-            <article class="rule-card rule-card-wide">
-                <div class="rule-icon">↗</div>
-                <h2>Cash Out</h2>
-
-                <div class="cashout-grid">
-                    <div>
-                        <h3>5–10 Deposits</h3>
-                        <p>Minimum Cashout: <strong>50</strong></p>
-                        <p>Maximum Cashout: <strong>100</strong></p>
+        <section class="rules-content" aria-label="Gaming rules">
+            <div class="rules-grid">
+                <article class="rules-card">
+                    <div class="rules-card-header">
+                        <div class="rules-icon" aria-hidden="true">%</div>
+                        <div>
+                            <h2>Bonuses</h2>
+                            <p class="rules-card-subtitle">Available bonus rates</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3>10–20 Deposits</h3>
-                        <p>Minimum Cashout: <strong>50</strong></p>
-                        <p>Maximum Cashout: <strong>200</strong></p>
-                    </div>
-                    <div>
-                        <h3>20–30 Deposits</h3>
-                        <p>Minimum Cashout: <strong>50</strong></p>
-                        <p>Maximum Cashout: <strong>300</strong></p>
-                    </div>
-                    <div>
-                        <h3>30–100 Deposits</h3>
-                        <p>Minimum: <strong>3×</strong> the deposit</p>
-                        <p>Maximum: <strong>10×</strong> the deposit</p>
-                    </div>
-                </div>
 
-                <div class="notice">REST OF YOUR FUND WILL BE VOID</div>
-            </article>
+                    <ul class="rules-list">
+                        <li><span>Sign Up</span><strong>50%</strong></li>
+                        <li><span>Regular</span><strong>10%</strong></li>
+                        <li><span>Referral</span><strong>25%</strong></li>
+                    </ul>
+                </article>
+
+                <article class="rules-card">
+                    <div class="rules-card-header">
+                        <div class="rules-icon" aria-hidden="true">$</div>
+                        <div>
+                            <h2>Deposit Rules</h2>
+                            <p class="rules-card-subtitle">Minimum deposit requirements</p>
+                        </div>
+                    </div>
+
+                    <ul class="rules-list">
+                        <li><span>Regular clients</span><strong>$5</strong></li>
+                        <li><span>New clients</span><strong>$10</strong></li>
+                        <li><span>Referral clients</span><strong>$20</strong></li>
+                    </ul>
+                </article>
+
+                <article class="rules-card rules-card-wide">
+                    <div class="rules-card-header">
+                        <div class="rules-icon" aria-hidden="true">↗</div>
+                        <div>
+                            <h2>Cash Out</h2>
+                            <p class="rules-card-subtitle">Cash out limits based on deposit activity</p>
+                        </div>
+                    </div>
+
+                    <div class="cashout-grid">
+                        <div class="cashout-item">
+                            <h3>5–10 Deposits</h3>
+                            <p>Minimum Cashout: <span class="cashout-value">50</span></p>
+                            <p>Maximum Cashout: <span class="cashout-value">100</span></p>
+                        </div>
+
+                        <div class="cashout-item">
+                            <h3>10–20 Deposits</h3>
+                            <p>Minimum Cashout: <span class="cashout-value">50</span></p>
+                            <p>Maximum Cashout: <span class="cashout-value">200</span></p>
+                        </div>
+
+                        <div class="cashout-item">
+                            <h3>20–30 Deposits</h3>
+                            <p>Minimum Cashout: <span class="cashout-value">50</span></p>
+                            <p>Maximum Cashout: <span class="cashout-value">300</span></p>
+                        </div>
+
+                        <div class="cashout-item">
+                            <h3>30–100 Deposits</h3>
+                            <p>Minimum: <span class="cashout-value">3×</span> the deposit</p>
+                            <p>Maximum: <span class="cashout-value">10×</span> the deposit</p>
+                        </div>
+                    </div>
+
+                    <div class="rules-warning">REST OF YOUR FUND WILL BE VOID</div>
+                </article>
+            </div>
         </section>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="footer-content">
             <p>&copy; 2026 GKing Eldorad</p>
             <p>Contact us at <a href="mailto:gimmyking2023@gmail.com">gimmyking2023@gmail.com</a></p>
