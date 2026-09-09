@@ -228,7 +228,7 @@ body {
 .platform-card {
     position: relative;
     isolation: isolate;
-    min-height: 175px;
+    min-height: 75px;
     padding: 24px 18px;
     display: flex;
     flex-direction: column;
