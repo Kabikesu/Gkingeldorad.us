@@ -12,7 +12,6 @@
         /* =====================================================
            HOME PAGE — RULES SUMMARY
         ===================================================== */
-
         .home-rules {
             width: min(1150px, 100%);
             margin: 70px auto 75px;
@@ -22,240 +21,81 @@
             background: linear-gradient(145deg, rgba(29, 37, 43, .92), rgba(13, 18, 23, .96));
             box-shadow: 0 24px 60px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .04);
         }
+        .home-rules-heading { margin-bottom: 30px; text-align: center; }
+        .home-rules-heading h2 { margin: 5px 0 8px; font-size: clamp(2rem, 5vw, 3rem); }
+        .home-rules-heading p { color: #aeb8c4; line-height: 1.6; }
+        .home-rules-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+        .home-rule-card { padding: 25px; border: 1px solid rgba(255, 255, 255, .08); border-radius: 20px; background: rgba(255, 255, 255, .035); transition: transform .25s ease, border-color .25s ease, background .25s ease; }
+        .home-rule-card:hover { transform: translateY(-4px); border-color: rgba(101, 223, 140, .25); background: rgba(101, 223, 140, .045); }
+        .home-rule-card-wide { grid-column: 1 / -1; }
+        .home-rule-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .home-rule-icon { width: 48px; height: 48px; flex: 0 0 48px; display: grid; place-items: center; border: 1px solid rgba(101, 223, 140, .25); border-radius: 14px; background: rgba(22, 143, 61, .12); color: #72e79a; font-size: 1.25rem; font-weight: 900; }
+        .home-rule-label { display: block; margin-bottom: 4px; color: #72e79a; font-size: .68rem; font-weight: 900; letter-spacing: .15em; }
+        .home-rule-card h3 { margin: 0; color: #fff; font-size: 1.25rem; }
+        .home-rule-card > .home-rule-icon { float: left; margin: 0 14px 18px 0; }
+        .home-rule-card > .home-rule-icon + div { min-height: 48px; padding-top: 2px; }
+        .home-rule-card ul { clear: both; display: grid; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
+        .home-rule-card li { display: flex; justify-content: space-between; gap: 15px; padding: 11px 13px; border: 1px solid rgba(255, 255, 255, .06); border-radius: 11px; background: rgba(255, 255, 255, .025); color: #cdd4dc; }
+        .home-rule-card li strong { color: #72e79a; font-weight: 900; }
+        .home-cashout-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+        .home-cashout-grid div { min-height: 92px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; border: 1px solid rgba(255, 255, 255, .06); border-radius: 13px; background: rgba(255, 255, 255, .025); }
+        .home-cashout-grid span { color: #aeb8c4; font-size: .8rem; }
+        .home-cashout-grid strong { color: #72e79a; font-size: .95rem; }
+        .home-rules-warning { margin-top: 14px; padding: 11px 15px; border: 1px solid rgba(255, 92, 92, .22); border-radius: 11px; background: rgba(104, 27, 27, .16); color: #ff9f9f; font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-align: center; }
+        .home-rules-button { width: fit-content; min-height: 48px; margin: 25px auto 0; padding: 12px 20px; display: flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid rgba(101, 223, 140, .3); border-radius: 13px; background: linear-gradient(135deg, #168f3d, #116c31); color: #fff; font-size: .82rem; font-weight: 900; letter-spacing: .08em; box-shadow: 0 10px 25px rgba(22, 143, 61, .18); transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; }
+        .home-rules-button:hover { transform: translateY(-3px); filter: brightness(1.08); box-shadow: 0 15px 32px rgba(22, 143, 61, .28); }
+        @media (max-width: 900px) { .home-rules { padding: 32px; } .home-cashout-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 800px) { .home-rules { margin: 50px auto 60px; padding: 25px; border-radius: 22px; } .home-rules-grid { grid-template-columns: 1fr; } .home-rule-card-wide { grid-column: auto; } }
+        @media (max-width: 520px) { .home-rules { margin: 40px auto 50px; padding: 19px; border-radius: 18px; } .home-rules-heading { margin-bottom: 22px; } .home-rule-card { padding: 19px; } .home-cashout-grid { grid-template-columns: 1fr; } .home-rules-button { width: 100%; } }
+        @media (prefers-reduced-motion: reduce) { .home-rule-card, .home-rules-button { transition: none; } }
 
-        .home-rules-heading {
-            margin-bottom: 30px;
+        /* =====================================================
+           HOME PAGE — CONNECT WITH US FOOTER
+        ===================================================== */
+        .footer-connect {
+            margin: 0 auto 24px;
             text-align: center;
         }
-
-        .home-rules-heading h2 {
-            margin: 5px 0 8px;
-            font-size: clamp(2rem, 5vw, 3rem);
-        }
-
-        .home-rules-heading p {
-            color: #aeb8c4;
-            line-height: 1.6;
-        }
-
-        .home-rules-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .home-rule-card {
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 20px;
-            background: rgba(255, 255, 255, .035);
-            transition: transform .25s ease, border-color .25s ease, background .25s ease;
-        }
-
-        .home-rule-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(101, 223, 140, .25);
-            background: rgba(101, 223, 140, .045);
-        }
-
-        .home-rule-card-wide {
-            grid-column: 1 / -1;
-        }
-
-        .home-rule-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .home-rule-icon {
-            width: 48px;
-            height: 48px;
-            flex: 0 0 48px;
-            display: grid;
-            place-items: center;
-            border: 1px solid rgba(101, 223, 140, .25);
-            border-radius: 14px;
-            background: rgba(22, 143, 61, .12);
+        .footer-connect-title {
+            margin: 0 0 14px;
             color: #72e79a;
-            font-size: 1.25rem;
+            font-size: .78rem;
             font-weight: 900;
+            letter-spacing: .16em;
+            text-transform: uppercase;
         }
-
-        .home-rule-label {
-            display: block;
-            margin-bottom: 4px;
-            color: #72e79a;
-            font-size: .68rem;
-            font-weight: 900;
-            letter-spacing: .15em;
-        }
-
-        .home-rule-card h3 {
-            margin: 0;
-            color: #fff;
-            font-size: 1.25rem;
-        }
-
-        .home-rule-card > .home-rule-icon {
-            float: left;
-            margin: 0 14px 18px 0;
-        }
-
-        .home-rule-card > .home-rule-icon + div {
-            min-height: 48px;
-            padding-top: 2px;
-        }
-
-        .home-rule-card ul {
-            clear: both;
-            display: grid;
-            gap: 8px;
-            margin: 20px 0 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .home-rule-card li {
+        .footer-social-links {
             display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 11px 13px;
-            border: 1px solid rgba(255, 255, 255, .06);
-            border-radius: 11px;
-            background: rgba(255, 255, 255, .025);
-            color: #cdd4dc;
-        }
-
-        .home-rule-card li strong {
-            color: #72e79a;
-            font-weight: 900;
-        }
-
-        .home-cashout-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .home-cashout-grid div {
-            min-height: 92px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 10px;
-            border: 1px solid rgba(255, 255, 255, .06);
-            border-radius: 13px;
-            background: rgba(255, 255, 255, .025);
-        }
-
-        .home-cashout-grid span {
-            color: #aeb8c4;
-            font-size: .8rem;
-        }
-
-        .home-cashout-grid strong {
-            color: #72e79a;
-            font-size: .95rem;
-        }
-
-        .home-rules-warning {
-            margin-top: 14px;
-            padding: 11px 15px;
-            border: 1px solid rgba(255, 92, 92, .22);
-            border-radius: 11px;
-            background: rgba(104, 27, 27, .16);
-            color: #ff9f9f;
-            font-size: .68rem;
-            font-weight: 900;
-            letter-spacing: .1em;
-            text-align: center;
-        }
-
-        .home-rules-button {
-            width: fit-content;
-            min-height: 48px;
-            margin: 25px auto 0;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
-            border: 1px solid rgba(101, 223, 140, .3);
-            border-radius: 13px;
-            background: linear-gradient(135deg, #168f3d, #116c31);
-            color: #fff;
+        }
+        .footer-social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 8px 14px;
+            border: 1px solid rgba(255, 255, 255, .09);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .035);
+            color: #dce3ea;
             font-size: .82rem;
-            font-weight: 900;
-            letter-spacing: .08em;
-            box-shadow: 0 10px 25px rgba(22, 143, 61, .18);
-            transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+            font-weight: 800;
+            transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease;
         }
-
-        .home-rules-button:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.08);
-            box-shadow: 0 15px 32px rgba(22, 143, 61, .28);
+        .footer-social-link:hover {
+            transform: translateY(-2px);
+            border-color: rgba(101, 223, 140, .28);
+            background: rgba(101, 223, 140, .08);
+            color: #72e79a;
         }
-
-        @media (max-width: 900px) {
-            .home-rules {
-                padding: 32px;
-            }
-
-            .home-cashout-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (max-width: 800px) {
-            .home-rules {
-                margin: 50px auto 60px;
-                padding: 25px;
-                border-radius: 22px;
-            }
-
-            .home-rules-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .home-rule-card-wide {
-                grid-column: auto;
-            }
-        }
-
         @media (max-width: 520px) {
-            .home-rules {
-                margin: 40px auto 50px;
-                padding: 19px;
-                border-radius: 18px;
-            }
-
-            .home-rules-heading {
-                margin-bottom: 22px;
-            }
-
-            .home-rule-card {
-                padding: 19px;
-            }
-
-            .home-cashout-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .home-rules-button {
-                width: 100%;
-            }
+            .footer-social-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 12px; }
+            .footer-social-link { width: 100%; }
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            .home-rule-card,
-            .home-rules-button {
-                transition: none;
-            }
-        }
+        @media (prefers-reduced-motion: reduce) { .footer-social-link { transition: none; } }
     </style>
 </head>
 <body>
@@ -263,13 +103,9 @@
         <a class="logo-link" href="index.html" aria-label="GKing Eldorad home">
             <img src="images/logo/GKlogo.jpg" class="logo" alt="GKing Eldorad logo">
         </a>
-
         <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="main-navigation">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </button>
-
         <nav class="navigation" id="main-navigation" aria-label="Main navigation">
             <a href="index.html">Home<span></span></a>
             <a href="Rules.html">Rules<span></span></a>
@@ -298,7 +134,6 @@
                 <h2>GKing Eldorad</h2>
                 <p>Choose a platform below to continue.</p>
             </div>
-
             <div class="platform-grid" id="platform-grid"></div>
 
             <section class="home-rules" aria-labelledby="home-rules-title">
@@ -307,70 +142,40 @@
                     <h2 id="home-rules-title">Rules &amp; Cash Out</h2>
                     <p>A quick overview of our bonuses, deposits and cash-out limits.</p>
                 </div>
-
                 <div class="home-rules-grid">
                     <article class="home-rule-card">
                         <div class="home-rule-icon" aria-hidden="true">%</div>
-                        <div>
-                            <span class="home-rule-label">BONUSES</span>
-                            <h3>Available Bonuses</h3>
-                        </div>
+                        <div><span class="home-rule-label">BONUSES</span><h3>Available Bonuses</h3></div>
                         <ul>
                             <li><span>Sign Up</span><strong>50%</strong></li>
                             <li><span>Regular</span><strong>10%</strong></li>
                             <li><span>Referral</span><strong>25%</strong></li>
                         </ul>
                     </article>
-
                     <article class="home-rule-card">
                         <div class="home-rule-icon" aria-hidden="true">$</div>
-                        <div>
-                            <span class="home-rule-label">DEPOSIT</span>
-                            <h3>Deposit Requirements</h3>
-                        </div>
+                        <div><span class="home-rule-label">DEPOSIT</span><h3>Deposit Requirements</h3></div>
                         <ul>
                             <li><span>Regular</span><strong>$5</strong></li>
                             <li><span>New User</span><strong>$10</strong></li>
                             <li><span>Referral</span><strong>$20</strong></li>
                         </ul>
                     </article>
-
                     <article class="home-rule-card home-rule-card-wide">
                         <div class="home-rule-header">
                             <div class="home-rule-icon" aria-hidden="true">↕</div>
-                            <div>
-                                <span class="home-rule-label">CASH OUT</span>
-                                <h3>Cash-Out Limits</h3>
-                            </div>
+                            <div><span class="home-rule-label">CASH OUT</span><h3>Cash-Out Limits</h3></div>
                         </div>
-
                         <div class="home-cashout-grid">
-                            <div>
-                                <span>5–10 Deposits</span>
-                                <strong>$50 – $100</strong>
-                            </div>
-                            <div>
-                                <span>10–20 Deposits</span>
-                                <strong>$50 – $200</strong>
-                            </div>
-                            <div>
-                                <span>20–30 Deposits</span>
-                                <strong>$50 – $300</strong>
-                            </div>
-                            <div>
-                                <span>30–100 Deposits</span>
-                                <strong>3× – 10× Deposit</strong>
-                            </div>
+                            <div><span>5–10 Deposits</span><strong>$50 – $100</strong></div>
+                            <div><span>10–20 Deposits</span><strong>$50 – $200</strong></div>
+                            <div><span>20–30 Deposits</span><strong>$50 – $300</strong></div>
+                            <div><span>30–100 Deposits</span><strong>3× – 10× Deposit</strong></div>
                         </div>
-
                         <div class="home-rules-warning">REST OF YOUR FUND WILL BE VOID</div>
                     </article>
                 </div>
-
-                <a class="home-rules-button" href="Rules.html">
-                    VIEW FULL RULES
-                    <span aria-hidden="true">→</span>
-                </a>
+                <a class="home-rules-button" href="Rules.html">VIEW FULL RULES <span aria-hidden="true">→</span></a>
             </section>
 
             <section class="gallery-section" aria-labelledby="gallery-title">
@@ -378,22 +183,16 @@
                     <span class="section-kicker">FEATURED GAMES</span>
                     <h2 id="gallery-title">Platform Gallery</h2>
                 </div>
-
                 <div class="slideshow-container" tabindex="0" aria-label="Platform image gallery">
                     <div class="gallery-main" id="gallery-main">
                         <button class="prev" type="button" aria-label="Previous image">❮</button>
                         <button class="next" type="button" aria-label="Next image">❯</button>
-                        <div class="gallery-caption">
-                            <span id="gallery-counter">0 / 0</span>
-                            <strong id="gallery-title-current">Gallery</strong>
-                        </div>
+                        <div class="gallery-caption"><span id="gallery-counter">0 / 0</span><strong id="gallery-title-current">Gallery</strong></div>
                     </div>
-
                     <div class="gallery-controls">
                         <button class="gallery-play" type="button" aria-label="Pause automatic slideshow" aria-pressed="true">Ⅱ</button>
                         <div class="dots" id="gallery-dots" aria-label="Choose gallery image"></div>
                     </div>
-
                     <div class="gallery-thumbnails" id="gallery-thumbnails" aria-label="Gallery thumbnails"></div>
                 </div>
             </section>
@@ -401,6 +200,15 @@
     </main>
 
     <footer class="site-footer">
+        <div class="footer-connect">
+            <h2 class="footer-connect-title">Connect With Us</h2>
+            <div class="footer-social-links" aria-label="Social media links">
+                <a class="footer-social-link" href="https://www.facebook.com/share/1DJpeAKTug/" target="_blank" rel="noopener noreferrer">Facebook</a>
+                <a class="footer-social-link" href="#">WhatsApp</a>
+                <a class="footer-social-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a class="footer-social-link" href="https://kabikesu.github.io/Gkingeldorad.us/About%20US.html#" target="_blank" rel="noopener noreferrer">Telegram</a>
+            </div>
+        </div>
         <p>&copy; 2026 GKing Eldorad. All rights reserved.</p>
     </footer>
 
