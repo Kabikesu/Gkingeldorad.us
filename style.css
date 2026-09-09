@@ -1,3 +1,12 @@
+/* =========================================================
+   GKING ELDORAD
+   MAIN STYLESHEET
+========================================================= */
+
+/* =========================================================
+   RESET & BASE
+========================================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +23,10 @@ body {
     overflow-x: hidden;
     background: #111;
 }
+
+/* =========================================================
+   HEADER & NAVIGATION
+========================================================= */
 
 .site-header {
     position: absolute;
@@ -49,11 +62,11 @@ body {
 .navigation a {
     position: relative;
     display: inline-block;
-    font-size: 1.1rem;
+    padding: 8px 15px;
     color: #fff;
+    font-size: 1.1rem;
     font-weight: 600;
     text-decoration: none;
-    padding: 8px 15px;
     transition: color .3s ease;
 }
 
@@ -82,8 +95,8 @@ body {
 .menu-toggle {
     display: none;
     border: 0;
-    background: rgba(0, 0, 0, .45);
     padding: 9px;
+    background: rgba(0, 0, 0, .45);
     border-radius: 8px;
     cursor: pointer;
 }
@@ -97,6 +110,10 @@ body {
     border-radius: 3px;
 }
 
+/* =========================================================
+   HERO / PARALLAX
+========================================================= */
+
 .parallax {
     position: relative;
     display: flex;
@@ -104,7 +121,7 @@ body {
     align-items: center;
     height: 100vh;
     min-height: 560px;
-    background: url("casinocard.jpg") center / cover no-repeat;
+    background: url("images/hero/casinocard.jpg") center / cover no-repeat;
     overflow: hidden;
     isolation: isolate;
 }
@@ -155,8 +172,22 @@ body {
     will-change: transform, opacity;
 }
 
+/* =========================================================
+   NEWS TICKER
+========================================================= */
+
 .parallax + #news-ticker {
     position: relative;
+}
+
+#news-ticker {
+    min-height: 34px;
+    padding: 7px 10px;
+    background: #d11e1e;
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    overflow: hidden;
 }
 
 .ticker-content {
@@ -168,47 +199,42 @@ body {
     from {
         transform: translateX(100%);
     }
+
     to {
         transform: translateX(-100%);
     }
 }
 
-#news-ticker {
-    background: #d11e1e;
-    color: #fff;
-    min-height: 34px;
-    padding: 7px 10px;
-    font-size: 14px;
-    line-height: 20px;
-    overflow: hidden;
-}
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
 
 .sec {
     position: relative;
-    background: url("background.png") center / cover no-repeat;
     padding: 55px clamp(20px, 7vw, 100px) 70px;
+    background: url("images/backgrounds/background.png") center / cover no-repeat;
 }
 
 .section-heading,
 .gallery-heading {
+    margin-bottom: 30px;
     text-align: center;
     color: #fff;
-    margin-bottom: 30px;
 }
 
 .section-kicker {
     display: block;
+    margin-bottom: 7px;
     font-size: .78rem;
     letter-spacing: 3px;
     font-weight: 700;
     opacity: .8;
-    margin-bottom: 7px;
 }
 
 .sec h2,
 .gallery-heading h2 {
-    font-size: clamp(2rem, 5vw, 3em);
     margin-bottom: 5px;
+    font-size: clamp(2rem, 5vw, 3em);
 }
 
 .section-heading p,
@@ -216,6 +242,10 @@ body {
     font-size: 1rem;
     opacity: .85;
 }
+
+/* =========================================================
+   PLATFORM GRID
+========================================================= */
 
 .platform-grid {
     display: grid;
@@ -235,8 +265,8 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    text-decoration: none;
     color: #fff;
+    text-decoration: none;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, .15);
     border-radius: 22px;
@@ -250,10 +280,10 @@ body {
 .platform-card:before {
     content: "";
     position: absolute;
-    width: 150px;
-    height: 150px;
     top: -78px;
     right: -55px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background: var(--accent);
     opacity: .2;
@@ -311,8 +341,8 @@ body {
     border-radius: 20px;
     background: linear-gradient(145deg, var(--accent), rgba(255, 255, 255, .08));
     border: 1px solid rgba(255, 255, 255, .28);
-    font-weight: 900;
     font-size: 18px;
+    font-weight: 900;
     letter-spacing: 1px;
     box-shadow: 0 9px 22px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .25);
     transition: transform .3s ease;
@@ -323,6 +353,7 @@ body {
 }
 
 .platform-image {
+    display: block;
     width: 58px;
     height: 58px;
     margin-bottom: 13px;
@@ -330,7 +361,6 @@ body {
     border-radius: 15px;
     object-fit: contain;
     object-position: center;
-    display: block;
     background: rgba(255, 255, 255, .08);
     border: 1px solid rgba(255, 255, 255, .2);
     box-shadow: 0 9px 22px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .2);
@@ -357,8 +387,8 @@ body {
 }
 
 .platform-action b {
-    font-size: 16px;
     margin-left: 4px;
+    font-size: 16px;
     transition: margin .25s ease;
 }
 
@@ -406,6 +436,10 @@ body {
     --accent: #45e0ff;
 }
 
+/* =========================================================
+   GALLERY
+========================================================= */
+
 .gallery-section {
     max-width: 1100px;
     margin: 0 auto;
@@ -432,16 +466,16 @@ body {
 }
 
 .mySlides {
+    position: relative;
     display: none;
     width: 100%;
     height: 100%;
-    position: relative;
 }
 
 .mySlides img {
+    display: block;
     width: 100%;
     height: 100%;
-    display: block;
     object-fit: cover;
 }
 
@@ -449,7 +483,6 @@ body {
 .next {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     z-index: 5;
     width: 46px;
     height: 46px;
@@ -459,6 +492,7 @@ body {
     color: #fff;
     font-size: 21px;
     cursor: pointer;
+    transform: translateY(-50%);
     transition: .25s;
 }
 
@@ -481,9 +515,9 @@ body {
 
 .gallery-caption {
     position: absolute;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     padding: 42px 20px 17px;
     display: flex;
     justify-content: space-between;
@@ -528,13 +562,13 @@ body {
 }
 
 .dot {
-    cursor: pointer;
     width: 10px;
     height: 10px;
     padding: 0;
     border: 0;
-    background: #777;
     border-radius: 50%;
+    background: #777;
+    cursor: pointer;
     transition: .25s;
 }
 
@@ -563,10 +597,10 @@ body {
 }
 
 .thumb img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
 .thumb:hover,
@@ -584,10 +618,15 @@ body {
     from {
         opacity: .45;
     }
+
     to {
         opacity: 1;
     }
 }
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 .site-footer {
     padding: 22px 15px;
@@ -596,6 +635,10 @@ body {
     color: #fff;
     font-size: 14px;
 }
+
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media (max-width: 1000px) {
     .site-header {
@@ -606,6 +649,10 @@ body {
         grid-template-columns: repeat(3, minmax(140px, 1fr));
     }
 }
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 767px) {
     .site-header {
@@ -746,6 +793,10 @@ body {
     }
 }
 
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
 @media (max-width: 380px) {
     .platform-grid {
         grid-template-columns: 1fr;
@@ -759,6 +810,10 @@ body {
         display: none;
     }
 }
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
     html {
