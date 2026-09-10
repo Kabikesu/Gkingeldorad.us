@@ -292,7 +292,7 @@ loadGallery();
    DYNAMIC PLATFORM PROMOTIONS
 
    Add promotion images to images/promotions/
-   Every image becomes a floating bubble.
+   Every image can create multiple floating bubbles.
 ========================================================= */
 
 const promotionFolder = 'images/promotions';
@@ -319,6 +319,17 @@ function getPromotionUrl(fileName) {
         return normalizedFile.includes(normalizedName);
     });
     return matchedPlatform ? matchedPlatform.url : '';
+}
+
+function getPromotionBubbleCount(promotionCount) {
+    if (promotionCount <= 1) return 6;
+    if (promotionCount === 2) return 10;
+    return Math.min(14, 4 + promotionCount * 4);
+}
+
+function getPromotionAutoInterval(promotionCount) {
+    if (promotionCount <= 1) return 0;
+    return Math.min(60000, 15000 + promotionCount * 5000);
 }
 
 function addPromotionStyles() {
@@ -395,34 +406,36 @@ function addPromotionStyles() {
             filter: drop-shadow(0 2px 5px rgba(0,0,0,.25));
         }
 
-        .promotion-bubble > span:last-child {
+        .promotion-bubble-name {
             position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
+            left: 50%;
+            bottom: -25px;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 130px;
+            padding: 4px 8px;
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 999px;
+            background: rgba(8,10,15,.62);
+            color: rgba(255,255,255,.94);
+            font-size: .58rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: .02em;
             white-space: nowrap;
-            border: 0;
+            text-align: center;
+            pointer-events: none;
+            text-shadow: 0 1px 4px rgba(0,0,0,.45);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
 
         @keyframes promotionWind {
-            0% {
-                transform: translate3d(var(--x1), var(--y1), 0) rotate(var(--r1)) scale(var(--s1));
-            }
-            25% {
-                transform: translate3d(var(--x2), var(--y2), 0) rotate(var(--r2)) scale(var(--s2));
-            }
-            50% {
-                transform: translate3d(var(--x3), var(--y3), 0) rotate(var(--r3)) scale(var(--s3));
-            }
-            75% {
-                transform: translate3d(var(--x4), var(--y4), 0) rotate(var(--r4)) scale(var(--s4));
-            }
-            100% {
-                transform: translate3d(var(--x5), var(--y5), 0) rotate(var(--r5)) scale(var(--s5));
-            }
+            0% { transform: translate3d(var(--x1), var(--y1), 0) rotate(var(--r1)) scale(var(--s1)); }
+            25% { transform: translate3d(var(--x2), var(--y2), 0) rotate(var(--r2)) scale(var(--s2)); }
+            50% { transform: translate3d(var(--x3), var(--y3), 0) rotate(var(--r3)) scale(var(--s3)); }
+            75% { transform: translate3d(var(--x4), var(--y4), 0) rotate(var(--r4)) scale(var(--s4)); }
+            100% { transform: translate3d(var(--x5), var(--y5), 0) rotate(var(--r5)) scale(var(--s5)); }
         }
 
         @keyframes promotionBubblePulse {
@@ -528,6 +541,7 @@ function addPromotionStyles() {
         @media (max-width: 520px) {
             .promotion-bubble { width: 48px; height: 48px; min-width: 48px; min-height: 48px; }
             .promotion-bubble-icon { font-size: 1.15rem; }
+            .promotion-bubble-name { bottom: -22px; max-width: 105px; font-size: .52rem; padding: 3px 6px; }
             .promotion-overlay { padding: 12px; }
             .promotion-modal { width: min(420px, 96vw); border-radius: 19px; }
             .promotion-image-wrap, .promotion-image { max-height: 70vh; }
@@ -600,25 +614,10 @@ function createPromotionUI(promotions) {
     modal.className = 'promotion-modal';
     overlay.appendChild(modal);
 
-    promotions.forEach((promotion, promotionIndex) => {
-        const button = document.createElement('button');
-        button.className = 'promotion-bubble';
-        button.type = 'button';
-        button.innerHTML = `
-            <span class="promotion-bubble-icon" aria-hidden="true">🔥</span>
-            <span>${promotionName(promotion.file)}</span>
-        `;
-        button.setAttribute('aria-label', `Open ${promotionName(promotion.file)} promotion`);
-        setBubblePath(button, promotionIndex);
-        button.addEventListener('click', () => openPromotion(promotionIndex));
-        bubbles.appendChild(button);
-    });
-
-    wrapper.appendChild(bubbles);
-    wrapper.appendChild(overlay);
-    document.body.appendChild(wrapper);
-
     let currentPromotion = 0;
+    let autoPromotionIndex = 0;
+    let autoTimer = null;
+    let autoOpening = false;
 
     function renderPromotion(promotionIndex) {
         currentPromotion = promotionIndex;
@@ -641,6 +640,24 @@ function createPromotionUI(promotions) {
         modal.querySelector('.promotion-close').addEventListener('click', closePromotion);
     }
 
+    function scheduleNextAutomaticPromotion() {
+        clearTimeout(autoTimer);
+        autoTimer = null;
+
+        if (autoPromotionIndex >= promotions.length) return;
+
+        const interval = getPromotionAutoInterval(promotions.length);
+        autoTimer = setTimeout(() => {
+            if (!overlay.classList.contains('open')) {
+                autoOpening = true;
+                openPromotion(autoPromotionIndex);
+                autoPromotionIndex += 1;
+            } else {
+                scheduleNextAutomaticPromotion();
+            }
+        }, interval);
+    }
+
     function openPromotion(promotionIndex = 0) {
         renderPromotion(promotionIndex);
         overlay.classList.add('open');
@@ -650,10 +667,39 @@ function createPromotionUI(promotions) {
     }
 
     function closePromotion() {
+        const wasAutomatic = autoOpening;
+        autoOpening = false;
         overlay.classList.remove('open');
         overlay.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('promotion-open');
+
+        if (wasAutomatic && autoPromotionIndex < promotions.length) {
+            scheduleNextAutomaticPromotion();
+        }
     }
+
+    const bubbleCount = getPromotionBubbleCount(promotions.length);
+
+    for (let bubbleIndex = 0; bubbleIndex < bubbleCount; bubbleIndex++) {
+        const promotionIndex = bubbleIndex % promotions.length;
+        const promotion = promotions[promotionIndex];
+        const name = promotionName(promotion.file);
+        const button = document.createElement('button');
+        button.className = 'promotion-bubble';
+        button.type = 'button';
+        button.innerHTML = `
+            <span class="promotion-bubble-icon" aria-hidden="true">🔥</span>
+            <span class="promotion-bubble-name">${name}</span>
+        `;
+        button.setAttribute('aria-label', `Open ${name} promotion`);
+        setBubblePath(button, bubbleIndex);
+        button.addEventListener('click', () => openPromotion(promotionIndex));
+        bubbles.appendChild(button);
+    }
+
+    wrapper.appendChild(bubbles);
+    wrapper.appendChild(overlay);
+    document.body.appendChild(wrapper);
 
     overlay.addEventListener('click', (event) => {
         if (event.target === overlay) closePromotion();
@@ -668,7 +714,11 @@ function createPromotionUI(promotions) {
     });
 
     setTimeout(() => {
-        if (!overlay.classList.contains('open')) openPromotion(0);
+        if (!overlay.classList.contains('open')) {
+            autoOpening = true;
+            openPromotion(0);
+            autoPromotionIndex = 1;
+        }
     }, promotionDelay);
 }
 
