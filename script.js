@@ -25,188 +25,32 @@ const gateRight = $('#gate-right');
 ========================================================= */
 
 const platforms = [
-    {
-        name: 'Billion Balls',
-        image: 'BillionBalls.jpg',
-        url: 'https://billionballs.win/',
-        className: 'platform-billion-balls',
-        accent: '#45d6a8'
-    },
-    {
-        name: 'Blue Dragon',
-        image: 'BlueDragon.jpg',
-        url: 'http://app.bluedragon777.com/',
-        className: 'platform-blue-dragon',
-        accent: '#4b9dff'
-    },
-    {
-        name: 'Cash Frenzy',
-        image: 'CashFrenzy.png',
-        url: 'https://www.cashfrenzy777.com/',
-        className: 'platform-cash',
-        accent: '#ffd34e'
-    },
-    {
-        name: 'Cash Machine',
-        image: 'CashMachine.jpg',
-        url: 'https://www.cashmachine777.com/',
-        className: 'platform-cash-machine',
-        accent: '#f4a642'
-    },
-    {
-        name: 'Eldorado',
-        image: 'Eldorado.jpg',
-        url: 'https://www.eldorado777.co/login',
-        className: 'platform-eldorado',
-        accent: '#e5bd52'
-    },
-    {
-        name: 'FireKirin',
-        image: 'FireKirin.jpg',
-        url: 'https://start.firekirin.xyz:8580/',
-        className: 'platform-firekirin',
-        accent: '#ff4b4b'
-    },
-    {
-        name: 'Funstation',
-        image: 'Funstation.jpg',
-        url: 'https://www.funstation.site/download/',
-        className: 'platform-funstation',
-        accent: '#ff6c9d'
-    },
-    {
-        name: 'Game Room',
-        image: 'GameRoom.jpg',
-        url: 'https://www.gameroom777.com/',
-        className: 'platform-game-room',
-        accent: '#6e8cff'
-    },
-    {
-        name: 'GameVault',
-        image: 'GameVault.jpg',
-        url: 'https://gamevault999.com/',
-        className: 'platform-gamevault',
-        accent: '#45e0ff'
-    },
-    {
-        name: 'Hi-Rollin',
-        image: 'Hi-Rollin.jpg',
-        url: 'https://hi-rollin.online/download',
-        className: 'platform-hi-rollin',
-        accent: '#d9a441'
-    },
-    {
-        name: 'Joker',
-        image: 'Joker.jpg',
-        url: 'https://www.joker777.win/',
-        className: 'platform-joker',
-        accent: '#b875ff'
-    },
-    {
-        name: 'Juwa',
-        image: 'JUWA.jpg',
-        url: 'https://juwa777.com/juwa',
-        className: 'platform-juwa',
-        accent: '#9d6cff'
-    },
-    {
-        name: 'Juwa 2.0',
-        image: 'Juwa2.jpg',
-        url: 'https://juwa777.com/juwa',
-        className: 'platform-juwa-2',
-        accent: '#c06cff'
-    },
-    {
-        name: 'Mafia',
-        image: 'Mafia.jpg',
-        url: 'https://mafia77777.com/m',
-        className: 'platform-mafia',
-        accent: '#e15d5d'
-    },
-    {
-        name: 'Medusa',
-        image: 'Medusa.jpg',
-        url: 'https://medusa777.com/',
-        className: 'platform-medusa',
-        accent: '#d96cff'
-    },
-    {
-        name: 'Milky Way',
-        image: 'Milkyway.jpg',
-        url: 'https://milkywayapp.xyz/',
-        className: 'platform-milky-way',
-        accent: '#79b7ff'
-    },
-    {
-        name: 'MR.Allinone',
-        image: 'AllinOne.jpeg',
-        url: 'https://www.mrallinone777.com/',
-        className: 'platform-allinone',
-        accent: '#55a7ff'
-    },
-    {
-        name: 'Orion Star',
-        image: 'OrionStar.jpeg',
-        url: 'http://start.orionstars.vip:8580/',
-        className: 'platform-orion',
-        accent: '#4bb3ff'
-    },
-    {
-        name: 'Panda Master',
-        image: 'Pandamaster.jpg',
-        url: 'https://pandamaster.vip:8888/',
-        className: 'platform-panda',
-        accent: '#f05d8b'
-    },
-    {
-        name: 'Panda Power',
-        image: 'PandaPower.jpg',
-        url: 'https://dev.pandapower777.com/login/',
-        className: 'platform-panda-power',
-        accent: '#67d8a1'
-    },
-    {
-        name: 'SpinCity',
-        image: 'SpinCity.jpg',
-        url: 'https://play.spincity777.vip/',
-        className: 'platform-spincity',
-        accent: '#ff709d'
-    },
-    {
-        name: 'Ultra Panda',
-        image: 'UltraPanda.jpg',
-        url: 'https://www.ultrapanda.club/',
-        className: 'platform-ultra-panda',
-        accent: '#62d9b1'
-    },
-    {
-        name: 'Vblink',
-        image: 'Vblink.jpeg',
-        url: 'https://www.vblink777.club/',
-        className: 'platform-vblink',
-        accent: '#24d5a5'
-    },
-    {
-        name: 'Vegas Sweeps',
-        image: 'VegasSweeps.jpg',
-        url: 'https://m.lasvegassweeps.com/',
-        className: 'platform-vegas-sweeps',
-        accent: '#f0c04f'
-    },
-    {
-        name: 'Winners Club',
-        image: 'WinnersClub.jpg',
-        url: 'https://www.winnersclub777.com/',
-        className: 'platform-winners-club',
-        accent: '#6bd58f'
-    },
-    {
-        name: 'YOLO',
-        image: 'YOLO.jpg',
-        url: 'https://yolo777.game/',
-        className: 'platform-yolo',
-        accent: '#ff8c5a'
-    }
+    { name: 'Billion Balls', image: 'BillionBalls.jpg', url: 'https://billionballs.win/', className: 'platform-billion-balls', accent: '#45d6a8' },
+    { name: 'Blue Dragon', image: 'BlueDragon.jpg', url: 'http://app.bluedragon777.com/', className: 'platform-blue-dragon', accent: '#4b9dff' },
+    { name: 'Cash Frenzy', image: 'CashFrenzy.png', url: 'https://www.cashfrenzy777.com/', className: 'platform-cash', accent: '#ffd34e' },
+    { name: 'Cash Machine', image: 'CashMachine.jpg', url: 'https://www.cashmachine777.com/', className: 'platform-cash-machine', accent: '#f4a642' },
+    { name: 'Eldorado', image: 'Eldorado.jpg', url: 'https://www.eldorado777.co/login', className: 'platform-eldorado', accent: '#e5bd52' },
+    { name: 'FireKirin', image: 'FireKirin.jpg', url: 'https://start.firekirin.xyz:8580/', className: 'platform-firekirin', accent: '#ff4b4b' },
+    { name: 'Funstation', image: 'Funstation.jpg', url: 'https://www.funstation.site/download/', className: 'platform-funstation', accent: '#ff6c9d' },
+    { name: 'Game Room', image: 'GameRoom.jpg', url: 'https://www.gameroom777.com/', className: 'platform-game-room', accent: '#6e8cff' },
+    { name: 'GameVault', image: 'GameVault.jpg', url: 'https://gamevault999.com/', className: 'platform-gamevault', accent: '#45e0ff' },
+    { name: 'Hi-Rollin', image: 'Hi-Rollin.jpg', url: 'https://hi-rollin.online/download', className: 'platform-hi-rollin', accent: '#d9a441' },
+    { name: 'Joker', image: 'Joker.jpg', url: 'https://www.joker777.win/', className: 'platform-joker', accent: '#b875ff' },
+    { name: 'Juwa', image: 'JUWA.jpg', url: 'https://juwa777.com/juwa', className: 'platform-juwa', accent: '#9d6cff' },
+    { name: 'Juwa 2.0', image: 'Juwa2.jpg', url: 'https://juwa777.com/juwa', className: 'platform-juwa-2', accent: '#c06cff' },
+    { name: 'Mafia', image: 'Mafia.jpg', url: 'https://mafia77777.com/m', className: 'platform-mafia', accent: '#e15d5d' },
+    { name: 'Medusa', image: 'Medusa.jpg', url: 'https://medusa777.com/', className: 'platform-medusa', accent: '#d96cff' },
+    { name: 'Milky Way', image: 'Milkyway.jpg', url: 'https://milkywayapp.xyz/', className: 'platform-milky-way', accent: '#79b7ff' },
+    { name: 'MR.Allinone', image: 'AllinOne.jpeg', url: 'https://www.mrallinone777.com/', className: 'platform-allinone', accent: '#55a7ff' },
+    { name: 'Orion Star', image: 'OrionStar.jpeg', url: 'http://start.orionstars.vip:8580/', className: 'platform-orion', accent: '#4bb3ff' },
+    { name: 'Panda Master', image: 'Pandamaster.jpg', url: 'https://pandamaster.vip:8888/', className: 'platform-panda', accent: '#f05d8b' },
+    { name: 'Panda Power', image: 'PandaPower.jpg', url: 'https://dev.pandapower777.com/login/', className: 'platform-panda-power', accent: '#67d8a1' },
+    { name: 'SpinCity', image: 'SpinCity.jpg', url: 'https://play.spincity777.vip/', className: 'platform-spincity', accent: '#ff709d' },
+    { name: 'Ultra Panda', image: 'UltraPanda.jpg', url: 'https://www.ultrapanda.club/', className: 'platform-ultra-panda', accent: '#62d9b1' },
+    { name: 'Vblink', image: 'Vblink.jpeg', url: 'https://www.vblink777.club/', className: 'platform-vblink', accent: '#24d5a5' },
+    { name: 'Vegas Sweeps', image: 'VegasSweeps.jpg', url: 'https://m.lasvegassweeps.com/', className: 'platform-vegas-sweeps', accent: '#f0c04f' },
+    { name: 'Winners Club', image: 'WinnersClub.jpg', url: 'https://www.winnersclub777.com/', className: 'platform-winners-club', accent: '#6bd58f' },
+    { name: 'YOLO', image: 'YOLO.jpg', url: 'https://yolo777.game/', className: 'platform-yolo', accent: '#ff8c5a' }
 ];
 
 const platformGrid = $('#platform-grid');
@@ -296,12 +140,8 @@ const navigation = $('.navigation');
 if (menuToggle && navigation) {
     menuToggle.addEventListener('click', () => {
         const open = navigation.classList.toggle('open');
-
         menuToggle.setAttribute('aria-expanded', open);
-        menuToggle.setAttribute(
-            'aria-label',
-            open ? 'Close navigation menu' : 'Open navigation menu'
-        );
+        menuToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
     });
 
     navigation.querySelectorAll('a').forEach((link) => {
@@ -368,13 +208,9 @@ function buildThumbnailWindow() {
 
         thumbnail.className = `thumb${offset === 0 ? ' active' : ''}`;
         thumbnail.type = 'button';
-        thumbnail.setAttribute(
-            'aria-label',
-            `View ${imageTitle(image.src.split('/').pop())}`
-        );
+        thumbnail.setAttribute('aria-label', `View ${imageTitle(image.src.split('/').pop())}`);
         thumbnail.innerHTML = `<img src="${image.src}" alt="">`;
         thumbnail.onclick = () => setSlide(imageIndex);
-
         thumbsBox.appendChild(thumbnail);
     }
 }
@@ -427,11 +263,7 @@ async function loadGallery() {
     try {
         const response = await fetch(
             'https://api.github.com/repos/Kabikesu/Gkingeldorad.us/contents/gallery?ref=main',
-            {
-                headers: {
-                    Accept: 'application/vnd.github+json'
-                }
-            }
+            { headers: { Accept: 'application/vnd.github+json' } }
         );
 
         if (!response.ok) {
@@ -439,16 +271,9 @@ async function loadGallery() {
         }
 
         const files = (await response.json())
-            .filter((file) => {
-                return file.type === 'file' && /\.(jpe?g|png|webp|gif)$/i.test(file.name);
-            })
+            .filter((file) => file.type === 'file' && /\.(jpe?g|png|webp|gif)$/i.test(file.name))
             .map((file) => file.name)
-            .sort((a, b) => {
-                return a.localeCompare(b, undefined, {
-                    numeric: true,
-                    sensitivity: 'base'
-                });
-            });
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
 
         renderGallery(files);
     } catch (error) {
@@ -482,11 +307,7 @@ function showSlide(slideIndex) {
     });
 
     counter.textContent = `${index + 1} / ${slides.length}`;
-    title.textContent = slides[index]
-        .querySelector('img')
-        .alt
-        .replace(/ platform$/i, '');
-
+    title.textContent = slides[index].querySelector('img').alt.replace(/ platform$/i, '');
     buildThumbnailWindow();
 }
 
@@ -514,10 +335,7 @@ next?.addEventListener('click', () => setSlide(index + 1));
 play?.addEventListener('click', () => {
     playing = !playing;
     play.textContent = playing ? 'Ⅱ' : '▶';
-    play.setAttribute(
-        'aria-label',
-        playing ? 'Pause automatic slideshow' : 'Play automatic slideshow'
-    );
+    play.setAttribute('aria-label', playing ? 'Pause automatic slideshow' : 'Play automatic slideshow');
     play.setAttribute('aria-pressed', playing);
 
     if (playing) {
@@ -540,20 +358,54 @@ gallery?.addEventListener('focusout', (event) => {
 loadGallery();
 
 /* =========================================================
-   PLATFORM PROMOTION POPUP
+   DYNAMIC PLATFORM PROMOTIONS
 
-   The promotion is site-wide because script.js is shared.
-   The floating button appears immediately.
-   The popup opens automatically after 30 seconds.
+   Add promotion images to:
+   images/promotions/
+
+   Every image becomes one floating promotion bubble.
+   If the folder has no valid images, no promotion UI is shown.
 ========================================================= */
 
-const promotionConfig = {
-    image: 'images/promotions/eldorado-promotion.jpg',
-    title: 'EL DORADO',
-    description: 'Discover the El Dorado platform and explore more games.',
-    url: 'https://www.eldorado777.co/',
-    delay: 30000
+const promotionFolder = 'images/promotions';
+const promotionApi = 'https://api.github.com/repos/Kabikesu/Gkingeldorad.us/contents/images/promotions?ref=main';
+const promotionDelay = 30000;
+
+/*
+   Optional links for promotion images.
+   The key must exactly match the image filename.
+   If no custom link is supplied, the platform URL is used when
+   the promotion filename matches a platform name; otherwise the
+   promotion can still be viewed without a destination link.
+*/
+const promotionLinks = {
+    'eldorado-promotion.jpg': 'https://www.eldorado777.co/'
 };
+
+function promotionName(fileName) {
+    return fileName
+        .replace(/\.[^.]+$/, '')
+        .replace(/[-_]+/g, ' ')
+        .replace(/\b\w/g, (character) => character.toUpperCase());
+}
+
+function getPromotionUrl(fileName) {
+    if (promotionLinks[fileName]) {
+        return promotionLinks[fileName];
+    }
+
+    const normalizedFile = fileName
+        .replace(/\.[^.]+$/, '')
+        .replace(/[-_ ]/g, '')
+        .toLowerCase();
+
+    const matchedPlatform = platforms.find((platform) => {
+        const normalizedName = platform.name.replace(/[-_ ]/g, '').toLowerCase();
+        return normalizedFile.includes(normalizedName);
+    });
+
+    return matchedPlatform ? matchedPlatform.url : '';
+}
 
 function addPromotionStyles() {
     if (document.getElementById('promotion-styles')) {
@@ -568,7 +420,18 @@ function addPromotionStyles() {
             right: 22px;
             bottom: 22px;
             z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
             font-family: inherit;
+        }
+
+        .promotion-bubbles {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 9px;
         }
 
         .promotion-bubble {
@@ -781,8 +644,8 @@ function addPromotionStyles() {
     document.head.appendChild(style);
 }
 
-function createPromotion() {
-    if (document.querySelector('.site-promotion')) {
+function createPromotionUI(promotions) {
+    if (!promotions.length || document.querySelector('.site-promotion')) {
         return;
     }
 
@@ -790,53 +653,75 @@ function createPromotion() {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'site-promotion';
-    wrapper.innerHTML = `
-        <button class="promotion-bubble" type="button" aria-label="Open El Dorado promotion">
+
+    const bubbles = document.createElement('div');
+    bubbles.className = 'promotion-bubbles';
+    bubbles.setAttribute('aria-label', 'Available promotions');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'promotion-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+
+    const modal = document.createElement('div');
+    modal.className = 'promotion-modal';
+    overlay.appendChild(modal);
+
+    promotions.forEach((promotion, promotionIndex) => {
+        const button = document.createElement('button');
+        button.className = 'promotion-bubble';
+        button.type = 'button';
+        button.innerHTML = `
             <span class="promotion-bubble-icon" aria-hidden="true">🔥</span>
-            <span>Special Promotion</span>
-        </button>
+            <span>${promotionName(promotion.file)}</span>
+        `;
+        button.setAttribute('aria-label', `Open ${promotionName(promotion.file)} promotion`);
+        button.addEventListener('click', () => openPromotion(promotionIndex));
+        bubbles.appendChild(button);
+    });
 
-        <div class="promotion-overlay" role="dialog" aria-modal="true" aria-labelledby="promotion-title" aria-hidden="true">
-            <div class="promotion-modal">
-                <div class="promotion-image-wrap">
-                    <button class="promotion-close" type="button" aria-label="Close promotion">×</button>
-                    <img class="promotion-image" src="${promotionConfig.image}" alt="El Dorado promotion">
-                </div>
-                <div class="promotion-content">
-                    <p class="promotion-kicker">Featured Platform</p>
-                    <h2 class="promotion-title" id="promotion-title">${promotionConfig.title}</h2>
-                    <p class="promotion-description">${promotionConfig.description}</p>
-                    <a class="promotion-action" href="${promotionConfig.url}" target="_blank" rel="noopener noreferrer">
-                        VISIT EL DORADO →
-                    </a>
-                </div>
-            </div>
-        </div>
-    `;
-
+    wrapper.appendChild(bubbles);
+    wrapper.appendChild(overlay);
     document.body.appendChild(wrapper);
 
-    const bubble = wrapper.querySelector('.promotion-bubble');
-    const overlay = wrapper.querySelector('.promotion-overlay');
-    const close = wrapper.querySelector('.promotion-close');
+    let currentPromotion = 0;
 
-    const openPromotion = () => {
+    function renderPromotion(promotionIndex) {
+        currentPromotion = promotionIndex;
+        const promotion = promotions[currentPromotion];
+        const name = promotionName(promotion.file);
+        const url = getPromotionUrl(promotion.file);
+
+        modal.innerHTML = `
+            <div class="promotion-image-wrap">
+                <button class="promotion-close" type="button" aria-label="Close promotion">×</button>
+                <img class="promotion-image" src="${promotion.imageUrl}" alt="${name} promotion">
+            </div>
+            <div class="promotion-content">
+                <p class="promotion-kicker">Featured Promotion</p>
+                <h2 class="promotion-title">${name}</h2>
+                <p class="promotion-description">Explore this featured platform promotion.</p>
+                ${url ? `<a class="promotion-action" href="${url}" target="_blank" rel="noopener noreferrer">VISIT PLATFORM →</a>` : ''}
+            </div>
+        `;
+
+        modal.querySelector('.promotion-close').addEventListener('click', closePromotion);
+    }
+
+    function openPromotion(promotionIndex = 0) {
+        renderPromotion(promotionIndex);
         overlay.classList.add('open');
         overlay.setAttribute('aria-hidden', 'false');
         document.body.classList.add('promotion-open');
-        sessionStorage.setItem('gking-promotion-shown', 'true');
-        close.focus();
-    };
+        modal.querySelector('.promotion-close')?.focus();
+    }
 
-    const closePromotion = () => {
+    function closePromotion() {
         overlay.classList.remove('open');
         overlay.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('promotion-open');
-        bubble.focus();
-    };
-
-    bubble.addEventListener('click', openPromotion);
-    close.addEventListener('click', closePromotion);
+    }
 
     overlay.addEventListener('click', (event) => {
         if (event.target === overlay) {
@@ -850,13 +735,37 @@ function createPromotion() {
         }
     });
 
-    if (!sessionStorage.getItem('gking-promotion-shown')) {
-        setTimeout(openPromotion, promotionConfig.delay);
+    setTimeout(() => {
+        if (!overlay.classList.contains('open')) {
+            openPromotion(0);
+        }
+    }, promotionDelay);
+}
+
+async function loadPromotions() {
+    try {
+        const response = await fetch(promotionApi, {
+            headers: { Accept: 'application/vnd.github+json' }
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const files = await response.json();
+        const promotions = files
+            .filter((file) => file.type === 'file' && /\.(jpe?g|png|webp|gif)$/i.test(file.name))
+            .map((file) => ({
+                file: file.name,
+                imageUrl: `${promotionFolder}/${encodeURIComponent(file.name)}`
+            }));
+
+        if (promotions.length) {
+            createPromotionUI(promotions);
+        }
+    } catch (error) {
+        console.info('No promotions available.');
     }
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', createPromotion, { once: true });
-} else {
-    createPromotion();
-}
+loadPromotions();
