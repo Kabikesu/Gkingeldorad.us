@@ -67,7 +67,6 @@ if (platformGrid) {
 ========================================================= */
 
 let heroRaf = 0;
-
 const clamp = (number, min = 0, max = 1) => Math.min(max, Math.max(min, number));
 
 function updateHero() {
@@ -289,10 +288,92 @@ gallery?.addEventListener('focusout', (event) => {
 loadGallery();
 
 /* =========================================================
+   PLATFORM COUNTER
+   Automatically reflects the platform data above.
+========================================================= */
+
+function updatePlatformCounters() {
+    document.querySelectorAll('[data-platform-count]').forEach((element) => {
+        element.textContent = platforms.length;
+    });
+
+    document.querySelectorAll('[data-platform-count-label]').forEach((element) => {
+        const count = platforms.length;
+        element.textContent = `${count} ${count === 1 ? 'PLATFORM' : 'PLATFORMS'}`;
+    });
+}
+
+updatePlatformCounters();
+
+/* =========================================================
+   PREMIUM PLATFORM CARD EFFECTS
+========================================================= */
+
+if (platformGrid && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    platformGrid.addEventListener('pointermove', (event) => {
+        const card = event.target.closest('.platform-card');
+        if (!card || !platformGrid.contains(card)) return;
+
+        const rect = card.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width - .5) * 2;
+        const y = ((event.clientY - rect.top) / rect.height - .5) * 2;
+
+        card.style.setProperty('--tilt-x', `${y * -3}deg`);
+        card.style.setProperty('--tilt-y', `${x * 3}deg`);
+        card.style.setProperty('--shine-x', `${((x + 1) / 2) * 100}%`);
+        card.style.setProperty('--shine-y', `${((y + 1) / 2) * 100}%`);
+    });
+
+    platformGrid.addEventListener('pointerout', (event) => {
+        const card = event.target.closest('.platform-card');
+        if (!card || card.contains(event.relatedTarget)) return;
+
+        card.style.setProperty('--tilt-x', '0deg');
+        card.style.setProperty('--tilt-y', '0deg');
+        card.style.setProperty('--shine-x', '50%');
+        card.style.setProperty('--shine-y', '50%');
+    });
+}
+
+/* =========================================================
+   SUBTLE GOLDEN PARTICLES
+========================================================= */
+
+function createAmbientParticles() {
+    if (document.querySelector('.ambient-particles')) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const layer = document.createElement('div');
+    layer.className = 'ambient-particles';
+    layer.setAttribute('aria-hidden', 'true');
+
+    const fragment = document.createDocumentFragment();
+    const count = matchMedia('(max-width: 767px)').matches ? 16 : 28;
+
+    for (let i = 0; i < count; i++) {
+        const particle = document.createElement('span');
+        particle.className = 'ambient-particle';
+        particle.style.setProperty('--particle-left', `${Math.random() * 100}%`);
+        particle.style.setProperty('--particle-delay', `${Math.random() * 12}s`);
+        particle.style.setProperty('--particle-duration', `${8 + Math.random() * 10}s`);
+        particle.style.setProperty('--particle-size', `${2 + Math.random() * 4}px`);
+        particle.style.setProperty('--particle-drift', `${-50 + Math.random() * 100}px`);
+        fragment.appendChild(particle);
+    }
+
+    layer.appendChild(fragment);
+    document.body.appendChild(layer);
+}
+
+createAmbientParticles();
+
+/* =========================================================
    DYNAMIC PLATFORM PROMOTIONS
 
    Add promotion images to images/promotions/
-   Every image can create multiple floating bubbles.
+   One promotion -> 6 floating bubbles
+   Two promotions -> 10 floating bubbles
+   Multiple promotions are shown automatically one after another.
 ========================================================= */
 
 const promotionFolder = 'images/promotions';
@@ -368,7 +449,7 @@ function addPromotionStyles() {
             min-width: 60px;
             min-height: 60px;
             padding: 0;
-            border: 1px solid rgba(255, 255, 255, .38);
+            border: 1px solid rgba(255,255,255,.38);
             border-radius: 50%;
             background:
                 radial-gradient(circle at 30% 24%, rgba(255,255,255,.42) 0 7%, transparent 8%),
@@ -379,7 +460,7 @@ function addPromotionStyles() {
             cursor: pointer;
             pointer-events: auto;
             opacity: .72;
-            box-shadow: inset -7px -9px 18px rgba(255, 255, 255, .08), inset 7px 6px 15px rgba(255, 255, 255, .12), 0 10px 30px rgba(0,0,0,.18), 0 0 24px rgba(255,210,90,.10);
+            box-shadow: inset -7px -9px 18px rgba(255,255,255,.08), inset 7px 6px 15px rgba(255,255,255,.12), 0 10px 30px rgba(0,0,0,.18), 0 0 24px rgba(255,210,90,.10);
             backdrop-filter: blur(1px);
             -webkit-backdrop-filter: blur(1px);
             transform-origin: center;
@@ -390,20 +471,16 @@ function addPromotionStyles() {
 
         .promotion-bubble:hover,
         .promotion-bubble:focus-visible {
-            opacity: 1;
-            border-color: rgba(255, 224, 115, .9);
-            filter: brightness(1.18);
-            animation-play-state: paused;
+            opacity: .95;
+            border-color: rgba(255,255,255,.7);
+            filter: brightness(1.12);
+            outline: none;
         }
 
         .promotion-bubble-icon {
-            display: grid;
-            place-items: center;
-            width: 100%;
-            height: 100%;
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             line-height: 1;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,.25));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
         }
 
         .promotion-bubble-name {
@@ -430,6 +507,66 @@ function addPromotionStyles() {
             -webkit-backdrop-filter: blur(3px);
         }
 
+        .promotion-modal {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(0,0,0,.76);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .25s ease, visibility .25s ease;
+        }
+
+        .promotion-modal.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .promotion-dialog {
+            position: relative;
+            width: min(92vw, 820px);
+            max-height: 90vh;
+            overflow: auto;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 20px;
+            background: rgba(12,13,18,.94);
+            box-shadow: 0 30px 80px rgba(0,0,0,.55);
+        }
+
+        .promotion-image {
+            display: block;
+            width: 100%;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .promotion-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            z-index: 2;
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 50%;
+            background: rgba(0,0,0,.55);
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        body.promotion-open {
+            overflow: hidden;
+        }
+
         @keyframes promotionWind {
             0% { transform: translate3d(var(--x1), var(--y1), 0) rotate(var(--r1)) scale(var(--s1)); }
             25% { transform: translate3d(var(--x2), var(--y2), 0) rotate(var(--r2)) scale(var(--s2)); }
@@ -439,120 +576,29 @@ function addPromotionStyles() {
         }
 
         @keyframes promotionBubblePulse {
-            0%, 100% { box-shadow: inset -7px -9px 18px rgba(255,255,255,.08), inset 7px 6px 15px rgba(255,255,255,.12), 0 10px 30px rgba(0,0,0,.18), 0 0 18px rgba(255,210,90,.07); }
-            50% { box-shadow: inset -7px -9px 18px rgba(255,255,255,.13), inset 7px 6px 15px rgba(255,255,255,.18), 0 13px 34px rgba(0,0,0,.22), 0 0 30px rgba(255,210,90,.17); }
+            0%, 100% { opacity: .62; }
+            50% { opacity: .82; }
         }
-
-        .promotion-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-            background: rgba(3, 5, 8, .78);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: opacity .25s ease, visibility .25s ease;
-        }
-
-        .promotion-overlay.open {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        .promotion-modal {
-            position: relative;
-            width: min(420px, 94vw);
-            max-height: min(90vh, 820px);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, .14);
-            border-radius: 24px;
-            background: #101218;
-            box-shadow: 0 35px 90px rgba(0, 0, 0, .65), 0 0 45px rgba(255, 191, 47, .1);
-            transform: translateY(16px) scale(.97);
-            transition: transform .3s ease;
-        }
-
-        .promotion-overlay.open .promotion-modal { transform: translateY(0) scale(1); }
-
-        .promotion-image-wrap {
-            position: relative;
-            max-height: 68vh;
-            overflow: hidden;
-            background: #08090d;
-        }
-
-        .promotion-image {
-            display: block;
-            width: 100%;
-            max-height: 68vh;
-            object-fit: contain;
-        }
-
-        .promotion-close {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 40px;
-            height: 40px;
-            display: grid;
-            place-items: center;
-            border: 1px solid rgba(255, 255, 255, .22);
-            border-radius: 50%;
-            background: rgba(7, 8, 12, .78);
-            color: #fff;
-            font-size: 1.35rem;
-            line-height: 1;
-            cursor: pointer;
-            z-index: 2;
-            transition: background .2s ease, transform .2s ease;
-        }
-
-        .promotion-close:hover { background: rgba(7, 8, 12, .96); transform: rotate(4deg) scale(1.05); }
-
-        .promotion-content { padding: 18px 20px 20px; text-align: center; }
-        .promotion-kicker { margin: 0 0 5px; color: #f5c84b; font-size: .68rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
-        .promotion-title { margin: 0; color: #fff; font-size: 1.5rem; font-weight: 900; }
-        .promotion-description { margin: 7px 0 15px; color: #aab1bd; font-size: .84rem; line-height: 1.55; }
-        .promotion-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 48px;
-            padding: 11px 18px;
-            border: 1px solid rgba(255, 215, 72, .42);
-            border-radius: 13px;
-            background: linear-gradient(135deg, #d89d16, #f1c63f);
-            color: #17110a;
-            font-size: .82rem;
-            font-weight: 950;
-            letter-spacing: .08em;
-            text-decoration: none;
-            box-shadow: 0 10px 28px rgba(224, 169, 30, .2);
-            transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
-        }
-        .promotion-action:hover { transform: translateY(-2px); filter: brightness(1.07); box-shadow: 0 14px 32px rgba(224, 169, 30, .3); }
 
         @media (max-width: 520px) {
-            .promotion-bubble { width: 48px; height: 48px; min-width: 48px; min-height: 48px; }
-            .promotion-bubble-icon { font-size: 1.15rem; }
+            .promotion-bubble {
+                width: 48px;
+                height: 48px;
+                min-width: 48px;
+                min-height: 48px;
+            }
+
+            .promotion-bubble-icon { font-size: 1rem; }
             .promotion-bubble-name { bottom: -22px; max-width: 105px; font-size: .52rem; padding: 3px 6px; }
-            .promotion-overlay { padding: 12px; }
-            .promotion-modal { width: min(420px, 96vw); border-radius: 19px; }
-            .promotion-image-wrap, .promotion-image { max-height: 70vh; }
-            .promotion-content { padding: 15px; }
+            .promotion-modal { padding: 12px; }
+            .promotion-dialog { width: 96vw; border-radius: 15px; padding: 8px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .promotion-bubble { animation: none; }
-            .promotion-overlay, .promotion-modal, .promotion-action, .promotion-close { transition: none; }
         }
     `;
+
     document.head.appendChild(style);
 }
 
@@ -560,7 +606,7 @@ function randomBetween(min, max) {
     return Math.round((min + Math.random() * (max - min)) * 10) / 10;
 }
 
-function setBubblePath(button, index) {
+function setBubblePath(button, bubbleIndex) {
     const vw = Math.max(window.innerWidth, 320);
     const vh = Math.max(window.innerHeight, 500);
     const size = window.innerWidth <= 520 ? 48 : 60;
@@ -588,31 +634,33 @@ function setBubblePath(button, index) {
         button.style.setProperty(`--s${point}`, randomBetween(.76, 1.22));
     }
 
-    button.style.setProperty('--wind-duration', `${randomBetween(15 + index * 1.5, 24 + index * 2)}s`);
+    button.style.setProperty('--wind-duration', `${randomBetween(15 + bubbleIndex * 1.5, 24 + bubbleIndex * 2)}s`);
     button.style.animationDelay = `${randomBetween(-10, 0)}s, ${randomBetween(-4, 0)}s`;
 }
 
-function createPromotionUI(promotions) {
-    if (!promotions.length || document.querySelector('.site-promotion')) return;
+function createPromotionSystem(promotions) {
+    if (!promotions.length) return;
 
     addPromotionStyles();
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'site-promotion';
+    const root = document.createElement('div');
+    root.className = 'site-promotion';
+    root.innerHTML = `
+        <div class="promotion-bubbles" aria-label="Promotions"></div>
+        <div class="promotion-modal" aria-hidden="true">
+            <div class="promotion-dialog" role="dialog" aria-modal="true" aria-label="Promotion">
+                <button class="promotion-close" type="button" aria-label="Close promotion">×</button>
+                <img class="promotion-image" src="" alt="Promotion">
+            </div>
+        </div>
+    `;
+    document.body.appendChild(root);
 
-    const bubbles = document.createElement('div');
-    bubbles.className = 'promotion-bubbles';
-    bubbles.setAttribute('aria-label', 'Available promotions');
-
-    const overlay = document.createElement('div');
-    overlay.className = 'promotion-overlay';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-hidden', 'true');
-
-    const modal = document.createElement('div');
-    modal.className = 'promotion-modal';
-    overlay.appendChild(modal);
+    const bubbles = root.querySelector('.promotion-bubbles');
+    const overlay = root.querySelector('.promotion-modal');
+    const modal = root.querySelector('.promotion-dialog');
+    const image = root.querySelector('.promotion-image');
+    const closeButton = root.querySelector('.promotion-close');
 
     let currentPromotion = 0;
     let autoPromotionIndex = 0;
@@ -620,24 +668,19 @@ function createPromotionUI(promotions) {
     let autoOpening = false;
 
     function renderPromotion(promotionIndex) {
+        const promotion = promotions[promotionIndex];
         currentPromotion = promotionIndex;
-        const promotion = promotions[currentPromotion];
-        const name = promotionName(promotion.file);
-        const url = getPromotionUrl(promotion.file);
+        image.src = `${promotionFolder}/${encodeURIComponent(promotion.file)}`;
+        image.alt = `${promotionName(promotion.file)} promotion`;
+        modal.setAttribute('aria-label', `${promotionName(promotion.file)} promotion`);
+    }
 
-        modal.innerHTML = `
-            <div class="promotion-image-wrap">
-                <button class="promotion-close" type="button" aria-label="Close promotion">×</button>
-                <img class="promotion-image" src="${promotion.imageUrl}" alt="${name} promotion">
-            </div>
-            <div class="promotion-content">
-                <p class="promotion-kicker">Featured Promotion</p>
-                <h2 class="promotion-title">${name}</h2>
-                <p class="promotion-description">Explore this featured platform promotion.</p>
-                ${url ? `<a class="promotion-action" href="${url}" target="_blank" rel="noopener noreferrer">VISIT PLATFORM →</a>` : ''}
-            </div>
-        `;
-        modal.querySelector('.promotion-close').addEventListener('click', closePromotion);
+    function openPromotion(promotionIndex = 0) {
+        renderPromotion(promotionIndex);
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('promotion-open');
+        closeButton.focus();
     }
 
     function scheduleNextAutomaticPromotion() {
@@ -656,14 +699,6 @@ function createPromotionUI(promotions) {
                 scheduleNextAutomaticPromotion();
             }
         }, interval);
-    }
-
-    function openPromotion(promotionIndex = 0) {
-        renderPromotion(promotionIndex);
-        overlay.classList.add('open');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('promotion-open');
-        modal.querySelector('.promotion-close')?.focus();
     }
 
     function closePromotion() {
@@ -697,20 +732,13 @@ function createPromotionUI(promotions) {
         bubbles.appendChild(button);
     }
 
-    wrapper.appendChild(bubbles);
-    wrapper.appendChild(overlay);
-    document.body.appendChild(wrapper);
-
+    closeButton.addEventListener('click', closePromotion);
     overlay.addEventListener('click', (event) => {
         if (event.target === overlay) closePromotion();
     });
 
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && overlay.classList.contains('open')) closePromotion();
-    });
-
-    addEventListener('resize', () => {
-        bubbles.querySelectorAll('.promotion-bubble').forEach((button, index) => setBubblePath(button, index));
     });
 
     setTimeout(() => {
@@ -727,19 +755,19 @@ async function loadPromotions() {
         const response = await fetch(promotionApi, {
             headers: { Accept: 'application/vnd.github+json' }
         });
-        if (!response.ok) return;
+        if (!response.ok) throw Error('Promotion folder unavailable');
 
         const files = await response.json();
         const promotions = files
             .filter((file) => file.type === 'file' && /\.(jpe?g|png|webp|gif)$/i.test(file.name))
             .map((file) => ({
                 file: file.name,
-                imageUrl: `${promotionFolder}/${encodeURIComponent(file.name)}`
+                url: getPromotionUrl(file.name)
             }));
 
-        if (promotions.length) createPromotionUI(promotions);
+        createPromotionSystem(promotions);
     } catch (error) {
-        console.info('No promotions available.');
+        console.error('Promotions unavailable:', error);
     }
 }
 
