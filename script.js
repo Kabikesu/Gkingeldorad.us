@@ -206,18 +206,20 @@ const promotionFolder = 'images/promotions';
 const promotionApi = 'https://api.github.com/repos/Kabikesu/Gkingeldorad.us/contents/images/promotions?ref=main';
 const promotionDelay = 30000;
 const promotionLinks = { 'eldorado-promotion.jpg': 'https://www.eldorado777.co/' };
+const bubbleSymbols = ['🪙', '$', '₿', '✦'];
 function promotionName(fileName) { return fileName.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (character) => character.toUpperCase()); }
+function normalizePromotionName(value) { return value.replace(/\.[^.]+$/, '').replace(/[^a-z0-9]/gi, '').toLowerCase(); }
 function getPromotionUrl(fileName) {
     if (promotionLinks[fileName]) return promotionLinks[fileName];
-    const normalizedFile = fileName.replace(/\.[^.]+$/, '').replace(/[-_ ]/g, '').toLowerCase();
-    const matchedPlatform = platforms.find((platform) => normalizedFile.includes(platform.name.replace(/[-_ ]/g, '').toLowerCase()));
+    const normalizedFile = normalizePromotionName(fileName);
+    const matchedPlatform = platforms.find((platform) => normalizedFile.includes(normalizePromotionName(platform.name)));
     return matchedPlatform ? matchedPlatform.url : '';
 }
 function getPromotionBubbleCount(promotionCount) { if (promotionCount <= 1) return 6; if (promotionCount === 2) return 10; return Math.min(14, 4 + promotionCount * 4); }
 function getPromotionAutoInterval(promotionCount) { if (promotionCount <= 1) return 0; return Math.min(60000, 15000 + promotionCount * 5000); }
 function getPromotionAccent(fileName) {
-    const normalizedFile = fileName.replace(/\.[^.]+$/, '').replace(/[-_ ]/g, '').toLowerCase();
-    const matchedPlatform = platforms.find((platform) => normalizedFile.includes(platform.name.replace(/[-_ ]/g, '').toLowerCase()));
+    const normalizedFile = normalizePromotionName(fileName);
+    const matchedPlatform = platforms.find((platform) => normalizedFile.includes(normalizePromotionName(platform.name)));
     return matchedPlatform ? matchedPlatform.accent : '#e5bd52';
 }
 
@@ -230,7 +232,14 @@ function addPromotionStyles() {
         .promotion-bubbles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
         .promotion-bubble { --bubble-accent:#e5bd52; position:absolute; top:0; left:0; display:grid; place-items:center; width:60px; height:60px; min-width:60px; min-height:60px; padding:0; border:1px solid color-mix(in srgb,var(--bubble-accent) 72%,white 28%); border-radius:50%; background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.52) 0 7%,transparent 8%),radial-gradient(circle at 65% 70%,color-mix(in srgb,var(--bubble-accent) 45%,transparent),transparent 58%),linear-gradient(145deg,rgba(255,255,255,.20),color-mix(in srgb,var(--bubble-accent) 48%,transparent)); color:#fff; font:inherit; cursor:pointer; pointer-events:auto; opacity:.76; box-shadow:inset -7px -9px 18px rgba(255,255,255,.08),inset 7px 6px 15px rgba(255,255,255,.13),0 10px 30px rgba(0,0,0,.18),0 0 24px color-mix(in srgb,var(--bubble-accent) 48%,transparent); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); transform-origin:center; will-change:transform,opacity; animation:promotionWind var(--wind-duration,18s) linear infinite alternate,promotionBubblePulse 4s ease-in-out infinite; transition:filter .2s ease,border-color .2s ease,opacity .2s ease,box-shadow .2s ease; }
         .promotion-bubble:hover,.promotion-bubble:focus-visible { opacity:.98; border-color:#fff; filter:brightness(1.14) saturate(1.12); box-shadow:inset -7px -9px 18px rgba(255,255,255,.12),inset 7px 6px 15px rgba(255,255,255,.16),0 12px 34px rgba(0,0,0,.22),0 0 34px color-mix(in srgb,var(--bubble-accent) 75%,transparent); animation-play-state:paused,paused; outline:none; }
-        .promotion-bubble-icon { font-size:1.25rem; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,.25)); }
+        .promotion-bubble-icon { position:relative; z-index:2; display:grid; place-items:center; font-size:1.25rem; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,.25)); }
+        .promotion-bubble-symbol { display:block; }
+        .promotion-sparkle { position:absolute; z-index:3; left:50%; top:50%; width:0; height:0; pointer-events:none; opacity:0; transform:translate(-50%,-50%) scale(.2) rotate(-15deg); color:#ffe58a; text-shadow:0 0 5px #fff,0 0 12px #ffd34e,0 0 24px rgba(255,211,78,.95); font-size:1.1rem; font-weight:900; line-height:1; }
+        .promotion-sparkle::before,.promotion-sparkle::after { content:'✦'; position:absolute; left:0; top:0; }
+        .promotion-sparkle::before { transform:translate(-15px,-13px) scale(.62); font-size:.75rem; }
+        .promotion-sparkle::after { transform:translate(11px,10px) scale(.48); font-size:.7rem; }
+        .promotion-bubble.sparkle-now .promotion-sparkle { animation:promotionSparkle .72s cubic-bezier(.2,.8,.2,1) both; }
+        .promotion-bubble.sparkle-now .promotion-bubble-icon { animation:promotionIconFlash .72s ease both; }
         .promotion-bubble-name { position:absolute; left:50%; bottom:-25px; transform:translateX(-50%); width:max-content; max-width:130px; padding:4px 8px; border:1px solid color-mix(in srgb,var(--bubble-accent) 60%,white 40%); border-radius:999px; background:color-mix(in srgb,var(--bubble-accent) 32%,rgba(8,10,15,.76)); color:rgba(255,255,255,.96); font-size:.58rem; font-weight:800; line-height:1; letter-spacing:.02em; white-space:nowrap; text-align:center; pointer-events:none; text-shadow:0 1px 4px rgba(0,0,0,.45); box-shadow:0 0 12px color-mix(in srgb,var(--bubble-accent) 35%,transparent); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
         .promotion-modal { position:fixed; inset:0; display:grid; place-items:center; padding:24px; background:rgba(0,0,0,.76); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .25s ease,visibility .25s ease; }
         .promotion-modal.open { opacity:1; visibility:visible; pointer-events:auto; }
@@ -242,8 +251,10 @@ function addPromotionStyles() {
         body.promotion-open { overflow:hidden; }
         @keyframes promotionWind { 0%{transform:translate3d(var(--x1),var(--y1),0) rotate(var(--r1)) scale(var(--s1));} 25%{transform:translate3d(var(--x2),var(--y2),0) rotate(var(--r2)) scale(var(--s2));} 50%{transform:translate3d(var(--x3),var(--y3),0) rotate(var(--r3)) scale(var(--s3));} 75%{transform:translate3d(var(--x4),var(--y4),0) rotate(var(--r4)) scale(var(--s4));} 100%{transform:translate3d(var(--x5),var(--y5),0) rotate(var(--r5)) scale(var(--s5));} }
         @keyframes promotionBubblePulse { 0%,100%{opacity:.64;} 50%{opacity:.86;} }
-        @media(max-width:520px){ .promotion-bubble{width:48px;height:48px;min-width:48px;min-height:48px;} .promotion-bubble-icon{font-size:1rem;} .promotion-bubble-name{bottom:-22px;max-width:105px;font-size:.52rem;padding:3px 6px;} .promotion-modal{padding:12px;} .promotion-dialog{width:96vw;border-radius:15px;padding:8px;} .promotion-open-link{padding:10px 12px;font-size:.8rem;} }
-        @media(prefers-reduced-motion:reduce){ .promotion-bubble{animation:none;} }
+        @keyframes promotionSparkle { 0%{opacity:0;transform:translate(-50%,-50%) scale(.15) rotate(-25deg);} 18%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(5deg);} 55%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(15deg);} 100%{opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(35deg);} }
+        @keyframes promotionIconFlash { 0%,100%{transform:scale(1);} 25%{transform:scale(1.18);} 55%{transform:scale(1.05);} }
+        @media(max-width:520px){ .promotion-bubble{width:48px;height:48px;min-width:48px;min-height:48px;} .promotion-bubble-icon{font-size:1rem;} .promotion-sparkle{font-size:.9rem;} .promotion-bubble-name{bottom:-22px;max-width:105px;font-size:.52rem;padding:3px 6px;} .promotion-modal{padding:12px;} .promotion-dialog{width:96vw;border-radius:15px;padding:8px;} .promotion-open-link{padding:10px 12px;font-size:.8rem;} }
+        @media(prefers-reduced-motion:reduce){ .promotion-bubble{animation:none;} .promotion-bubble.sparkle-now .promotion-sparkle{animation:none;opacity:1;} }
     `;
     document.head.appendChild(style);
 }
@@ -256,6 +267,26 @@ function setBubblePath(button,bubbleIndex){
     button.style.setProperty('--x1',`${x()}px`); button.style.setProperty('--y1',`${y()}px`); button.style.setProperty('--x2',`${x()}px`); button.style.setProperty('--y2',`${y()}px`); button.style.setProperty('--x3',`${x()}px`); button.style.setProperty('--y3',`${y()}px`); button.style.setProperty('--x4',`${x()}px`); button.style.setProperty('--y4',`${y()}px`); button.style.setProperty('--x5',`${x()}px`); button.style.setProperty('--y5',`${y()}px`);
     for(let point=1;point<=5;point++){ button.style.setProperty(`--r${point}`,`${randomBetween(-18,18)}deg`); button.style.setProperty(`--s${point}`,randomBetween(.76,1.22)); }
     button.style.setProperty('--wind-duration',`${randomBetween(15+bubbleIndex*1.5,24+bubbleIndex*2)}s`); button.style.animationDelay=`${randomBetween(-10,0)}s,${randomBetween(-4,0)}s`;
+}
+
+function startBubbleSparkles(bubbles){
+    if(bubbles.length<2 || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    let sparkleTimer=null;
+    const sparkleGroup=()=>{
+        if(!bubbles.length)return;
+        bubbles.forEach((bubble)=>bubble.classList.remove('sparkle-now'));
+        const count=Math.min(bubbles.length,Math.random()<.45?2:3);
+        const pool=[...bubbles];
+        for(let i=0;i<count;i++){
+            const pick=Math.floor(Math.random()*pool.length);
+            const bubble=pool.splice(pick,1)[0];
+            bubble.classList.add('sparkle-now');
+            setTimeout(()=>bubble.classList.remove('sparkle-now'),800);
+        }
+        sparkleTimer=setTimeout(sparkleGroup,2600+Math.random()*3600);
+    };
+    sparkleTimer=setTimeout(sparkleGroup,1800+Math.random()*2600);
+    addEventListener('beforeunload',()=>clearTimeout(sparkleTimer),{once:true});
 }
 
 function createPromotionSystem(promotions){
@@ -284,16 +315,19 @@ function createPromotionSystem(promotions){
     function scheduleNextAutomaticPromotion(){ clearTimeout(autoTimer); autoTimer=null; if(autoPromotionIndex>=promotions.length)return; const interval=getPromotionAutoInterval(promotions.length); autoTimer=setTimeout(()=>{ if(!overlay.classList.contains('open')){ autoOpening=true; openPromotion(autoPromotionIndex); autoPromotionIndex+=1; }else scheduleNextAutomaticPromotion(); },interval); }
     function closePromotion(){ const wasAutomatic=autoOpening; autoOpening=false; overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); document.body.classList.remove('promotion-open'); if(wasAutomatic&&autoPromotionIndex<promotions.length)scheduleNextAutomaticPromotion(); }
 
-    const bubbleCount=getPromotionBubbleCount(promotions.length);
+    const bubbleCount=getPromotionBubbleCount(promotions.length), bubbleNodes=[];
     for(let bubbleIndex=0;bubbleIndex<bubbleCount;bubbleIndex++){
         const promotionIndex=bubbleIndex%promotions.length, promotion=promotions[promotionIndex], name=promotionName(promotion.file), button=document.createElement('button');
+        const symbol=bubbleSymbols[bubbleIndex % bubbleSymbols.length];
         button.className='promotion-bubble'; button.type='button'; button.style.setProperty('--bubble-accent',getPromotionAccent(promotion.file));
-        button.innerHTML=`<span class="promotion-bubble-icon" aria-hidden="true">🔥</span><span class="promotion-bubble-name">${name}</span>`;
-        button.setAttribute('aria-label',`Open ${name} promotion`); setBubblePath(button,bubbleIndex); button.addEventListener('click',()=>openPromotion(promotionIndex)); bubbles.appendChild(button);
+        button.innerHTML=`<span class="promotion-bubble-icon" aria-hidden="true"><span class="promotion-bubble-symbol">${symbol}</span><span class="promotion-sparkle" aria-hidden="true">✦</span></span><span class="promotion-bubble-name">${name}</span>`;
+        button.setAttribute('aria-label',`Open ${name} promotion`); setBubblePath(button,bubbleIndex); button.addEventListener('click',()=>openPromotion(promotionIndex)); bubbles.appendChild(button); bubbleNodes.push(button);
     }
+    startBubbleSparkles(bubbleNodes);
     closeButton.addEventListener('click',closePromotion);
     overlay.addEventListener('click',(event)=>{ if(event.target===overlay)closePromotion(); });
     document.addEventListener('keydown',(event)=>{ if(event.key==='Escape'&&overlay.classList.contains('open'))closePromotion(); });
+    addEventListener('resize',()=>bubbleNodes.forEach((bubble,i)=>setBubblePath(bubble,i)),{passive:true});
     setTimeout(()=>{ if(!overlay.classList.contains('open')){ autoOpening=true; openPromotion(0); autoPromotionIndex=1; } },promotionDelay);
 }
 
