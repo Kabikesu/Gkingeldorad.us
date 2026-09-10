@@ -437,17 +437,17 @@ function addPromotionStyles() {
         .promotion-bubble {
             display: inline-flex;
             align-items: center;
-            gap: 9px;
-            min-height: 48px;
-            padding: 10px 16px;
-            border: 1px solid rgba(255, 214, 76, .42);
-            border-radius: 999px;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            min-width: 58px;
+            min-height: 58px;
+            padding: 0;
+            border: 1px solid rgba(255, 214, 76, .55);
+            border-radius: 50%;
             background: linear-gradient(135deg, #17131f, #281b35);
             color: #fff;
             font: inherit;
-            font-size: .78rem;
-            font-weight: 900;
-            letter-spacing: .06em;
             cursor: pointer;
             box-shadow: 0 14px 35px rgba(0, 0, 0, .35), 0 0 25px rgba(255, 190, 45, .12);
             animation: promotionPulse 2.4s ease-in-out infinite;
@@ -455,13 +455,30 @@ function addPromotionStyles() {
         }
 
         .promotion-bubble:hover {
-            transform: translateY(-3px) scale(1.02);
-            border-color: rgba(255, 214, 76, .7);
+            transform: translateY(-3px) scale(1.06);
+            border-color: rgba(255, 214, 76, .8);
             filter: brightness(1.08);
         }
 
         .promotion-bubble-icon {
-            font-size: 1.05rem;
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100%;
+            font-size: 1.35rem;
+            line-height: 1;
+        }
+
+        .promotion-bubble > span:last-child {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         .promotion-overlay {
@@ -605,9 +622,14 @@ function addPromotionStyles() {
             }
 
             .promotion-bubble {
-                min-height: 44px;
-                padding: 9px 13px;
-                font-size: .72rem;
+                width: 52px;
+                height: 52px;
+                min-width: 52px;
+                min-height: 52px;
+            }
+
+            .promotion-bubble-icon {
+                font-size: 1.2rem;
             }
 
             .promotion-overlay {
