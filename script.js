@@ -452,8 +452,12 @@ async function loadGallery() {
 
         renderGallery(files);
     } catch (error) {
-        counter.textContent = 'Gallery unavailable';
-        title.textContent = 'Please try again later';
+        if (counter) {
+            counter.textContent = 'Gallery unavailable';
+        }
+        if (title) {
+            title.textContent = 'Please try again later';
+        }
         console.error(error);
     }
 }
@@ -534,3 +538,325 @@ gallery?.addEventListener('focusout', (event) => {
 });
 
 loadGallery();
+
+/* =========================================================
+   PLATFORM PROMOTION POPUP
+
+   The promotion is site-wide because script.js is shared.
+   The floating button appears immediately.
+   The popup opens automatically after 30 seconds.
+========================================================= */
+
+const promotionConfig = {
+    image: 'images/promotions/eldorado-promotion.jpg',
+    title: 'EL DORADO',
+    description: 'Discover the El Dorado platform and explore more games.',
+    url: 'https://www.eldorado777.co/',
+    delay: 30000
+};
+
+function addPromotionStyles() {
+    if (document.getElementById('promotion-styles')) {
+        return;
+    }
+
+    const style = document.createElement('style');
+    style.id = 'promotion-styles';
+    style.textContent = `
+        .site-promotion {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 9998;
+            font-family: inherit;
+        }
+
+        .promotion-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 10px 16px;
+            border: 1px solid rgba(255, 214, 76, .42);
+            border-radius: 999px;
+            background: linear-gradient(135deg, #17131f, #281b35);
+            color: #fff;
+            font: inherit;
+            font-size: .78rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            cursor: pointer;
+            box-shadow: 0 14px 35px rgba(0, 0, 0, .35), 0 0 25px rgba(255, 190, 45, .12);
+            animation: promotionPulse 2.4s ease-in-out infinite;
+            transition: transform .2s ease, border-color .2s ease, filter .2s ease;
+        }
+
+        .promotion-bubble:hover {
+            transform: translateY(-3px) scale(1.02);
+            border-color: rgba(255, 214, 76, .7);
+            filter: brightness(1.08);
+        }
+
+        .promotion-bubble-icon {
+            font-size: 1.05rem;
+        }
+
+        .promotion-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(3, 5, 8, .78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .25s ease, visibility .25s ease;
+        }
+
+        .promotion-overlay.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .promotion-modal {
+            position: relative;
+            width: min(420px, 94vw);
+            max-height: min(90vh, 820px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 24px;
+            background: #101218;
+            box-shadow: 0 35px 90px rgba(0, 0, 0, .65), 0 0 45px rgba(255, 191, 47, .1);
+            transform: translateY(16px) scale(.97);
+            transition: transform .3s ease;
+        }
+
+        .promotion-overlay.open .promotion-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .promotion-image-wrap {
+            position: relative;
+            max-height: 68vh;
+            overflow: hidden;
+            background: #08090d;
+        }
+
+        .promotion-image {
+            display: block;
+            width: 100%;
+            max-height: 68vh;
+            object-fit: contain;
+        }
+
+        .promotion-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 50%;
+            background: rgba(7, 8, 12, .78);
+            color: #fff;
+            font-size: 1.35rem;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 2;
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .promotion-close:hover {
+            background: rgba(7, 8, 12, .96);
+            transform: rotate(4deg) scale(1.05);
+        }
+
+        .promotion-content {
+            padding: 18px 20px 20px;
+            text-align: center;
+        }
+
+        .promotion-kicker {
+            margin: 0 0 5px;
+            color: #f5c84b;
+            font-size: .68rem;
+            font-weight: 900;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .promotion-title {
+            margin: 0;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .promotion-description {
+            margin: 7px 0 15px;
+            color: #aab1bd;
+            font-size: .84rem;
+            line-height: 1.55;
+        }
+
+        .promotion-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 11px 18px;
+            border: 1px solid rgba(255, 215, 72, .42);
+            border-radius: 13px;
+            background: linear-gradient(135deg, #d89d16, #f1c63f);
+            color: #17110a;
+            font-size: .82rem;
+            font-weight: 950;
+            letter-spacing: .08em;
+            text-decoration: none;
+            box-shadow: 0 10px 28px rgba(224, 169, 30, .2);
+            transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+        }
+
+        .promotion-action:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.07);
+            box-shadow: 0 14px 32px rgba(224, 169, 30, .3);
+        }
+
+        @keyframes promotionPulse {
+            0%, 100% { box-shadow: 0 14px 35px rgba(0, 0, 0, .35), 0 0 20px rgba(255, 190, 45, .08); }
+            50% { box-shadow: 0 14px 35px rgba(0, 0, 0, .35), 0 0 32px rgba(255, 190, 45, .22); }
+        }
+
+        @media (max-width: 520px) {
+            .site-promotion {
+                right: 14px;
+                bottom: 14px;
+            }
+
+            .promotion-bubble {
+                min-height: 44px;
+                padding: 9px 13px;
+                font-size: .72rem;
+            }
+
+            .promotion-overlay {
+                padding: 12px;
+            }
+
+            .promotion-modal {
+                width: min(420px, 96vw);
+                border-radius: 19px;
+            }
+
+            .promotion-image-wrap,
+            .promotion-image {
+                max-height: 70vh;
+            }
+
+            .promotion-content {
+                padding: 15px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .promotion-bubble,
+            .promotion-overlay,
+            .promotion-modal,
+            .promotion-action,
+            .promotion-close {
+                animation: none;
+                transition: none;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+}
+
+function createPromotion() {
+    if (document.querySelector('.site-promotion')) {
+        return;
+    }
+
+    addPromotionStyles();
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'site-promotion';
+    wrapper.innerHTML = `
+        <button class="promotion-bubble" type="button" aria-label="Open El Dorado promotion">
+            <span class="promotion-bubble-icon" aria-hidden="true">🔥</span>
+            <span>Special Promotion</span>
+        </button>
+
+        <div class="promotion-overlay" role="dialog" aria-modal="true" aria-labelledby="promotion-title" aria-hidden="true">
+            <div class="promotion-modal">
+                <div class="promotion-image-wrap">
+                    <button class="promotion-close" type="button" aria-label="Close promotion">×</button>
+                    <img class="promotion-image" src="${promotionConfig.image}" alt="El Dorado promotion">
+                </div>
+                <div class="promotion-content">
+                    <p class="promotion-kicker">Featured Platform</p>
+                    <h2 class="promotion-title" id="promotion-title">${promotionConfig.title}</h2>
+                    <p class="promotion-description">${promotionConfig.description}</p>
+                    <a class="promotion-action" href="${promotionConfig.url}" target="_blank" rel="noopener noreferrer">
+                        VISIT EL DORADO →
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(wrapper);
+
+    const bubble = wrapper.querySelector('.promotion-bubble');
+    const overlay = wrapper.querySelector('.promotion-overlay');
+    const close = wrapper.querySelector('.promotion-close');
+
+    const openPromotion = () => {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('promotion-open');
+        sessionStorage.setItem('gking-promotion-shown', 'true');
+        close.focus();
+    };
+
+    const closePromotion = () => {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('promotion-open');
+        bubble.focus();
+    };
+
+    bubble.addEventListener('click', openPromotion);
+    close.addEventListener('click', closePromotion);
+
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) {
+            closePromotion();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && overlay.classList.contains('open')) {
+            closePromotion();
+        }
+    });
+
+    if (!sessionStorage.getItem('gking-promotion-shown')) {
+        setTimeout(openPromotion, promotionConfig.delay);
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', createPromotion, { once: true });
+} else {
+    createPromotion();
+}
