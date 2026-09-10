@@ -413,6 +413,15 @@ function getPromotionAutoInterval(promotionCount) {
     return Math.min(60000, 15000 + promotionCount * 5000);
 }
 
+function getPromotionAccent(fileName) {
+    const normalizedFile = fileName.replace(/\.[^.]+$/, '').replace(/[-_ ]/g, '').toLowerCase();
+    const matchedPlatform = platforms.find((platform) => {
+        const normalizedName = platform.name.replace(/[-_ ]/g, '').toLowerCase();
+        return normalizedFile.includes(normalizedName);
+    });
+    return matchedPlatform ? matchedPlatform.accent : '#e5bd52';
+}
+
 function addPromotionStyles() {
     if (document.getElementById('promotion-styles')) return;
 
@@ -439,6 +448,7 @@ function addPromotionStyles() {
         }
 
         .promotion-bubble {
+            --bubble-accent: #e5bd52;
             position: absolute;
             top: 0;
             left: 0;
@@ -449,31 +459,41 @@ function addPromotionStyles() {
             min-width: 60px;
             min-height: 60px;
             padding: 0;
-            border: 1px solid rgba(255,255,255,.38);
+            border: 1px solid color-mix(in srgb, var(--bubble-accent) 72%, white 28%);
             border-radius: 50%;
             background:
-                radial-gradient(circle at 30% 24%, rgba(255,255,255,.42) 0 7%, transparent 8%),
-                radial-gradient(circle at 65% 70%, rgba(255,255,255,.08), transparent 55%),
-                linear-gradient(145deg, rgba(255,255,255,.20), rgba(255,190,45,.12));
+                radial-gradient(circle at 30% 24%, rgba(255,255,255,.52) 0 7%, transparent 8%),
+                radial-gradient(circle at 65% 70%, color-mix(in srgb, var(--bubble-accent) 45%, transparent), transparent 58%),
+                linear-gradient(145deg, rgba(255,255,255,.20), color-mix(in srgb, var(--bubble-accent) 48%, transparent));
             color: #fff;
             font: inherit;
             cursor: pointer;
             pointer-events: auto;
-            opacity: .72;
-            box-shadow: inset -7px -9px 18px rgba(255,255,255,.08), inset 7px 6px 15px rgba(255,255,255,.12), 0 10px 30px rgba(0,0,0,.18), 0 0 24px rgba(255,210,90,.10);
-            backdrop-filter: blur(1px);
-            -webkit-backdrop-filter: blur(1px);
+            opacity: .76;
+            box-shadow:
+                inset -7px -9px 18px rgba(255,255,255,.08),
+                inset 7px 6px 15px rgba(255,255,255,.13),
+                0 10px 30px rgba(0,0,0,.18),
+                0 0 24px color-mix(in srgb, var(--bubble-accent) 48%, transparent);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             transform-origin: center;
             will-change: transform, opacity;
             animation: promotionWind var(--wind-duration, 18s) linear infinite alternate, promotionBubblePulse 4s ease-in-out infinite;
-            transition: filter .2s ease, border-color .2s ease, opacity .2s ease;
+            transition: filter .2s ease, border-color .2s ease, opacity .2s ease, box-shadow .2s ease;
         }
 
         .promotion-bubble:hover,
         .promotion-bubble:focus-visible {
-            opacity: .95;
-            border-color: rgba(255,255,255,.7);
-            filter: brightness(1.12);
+            opacity: .98;
+            border-color: #fff;
+            filter: brightness(1.14) saturate(1.12);
+            box-shadow:
+                inset -7px -9px 18px rgba(255,255,255,.12),
+                inset 7px 6px 15px rgba(255,255,255,.16),
+                0 12px 34px rgba(0,0,0,.22),
+                0 0 34px color-mix(in srgb, var(--bubble-accent) 75%, transparent);
+            animation-play-state: paused, paused;
             outline: none;
         }
 
@@ -491,10 +511,10 @@ function addPromotionStyles() {
             width: max-content;
             max-width: 130px;
             padding: 4px 8px;
-            border: 1px solid rgba(255,255,255,.18);
+            border: 1px solid color-mix(in srgb, var(--bubble-accent) 60%, white 40%);
             border-radius: 999px;
-            background: rgba(8,10,15,.62);
-            color: rgba(255,255,255,.94);
+            background: color-mix(in srgb, var(--bubble-accent) 32%, rgba(8,10,15,.76));
+            color: rgba(255,255,255,.96);
             font-size: .58rem;
             font-weight: 800;
             line-height: 1;
@@ -503,8 +523,9 @@ function addPromotionStyles() {
             text-align: center;
             pointer-events: none;
             text-shadow: 0 1px 4px rgba(0,0,0,.45);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            box-shadow: 0 0 12px color-mix(in srgb, var(--bubble-accent) 35%, transparent);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         .promotion-modal {
@@ -576,8 +597,8 @@ function addPromotionStyles() {
         }
 
         @keyframes promotionBubblePulse {
-            0%, 100% { opacity: .62; }
-            50% { opacity: .82; }
+            0%, 100% { opacity: .64; }
+            50% { opacity: .86; }
         }
 
         @media (max-width: 520px) {
@@ -722,6 +743,7 @@ function createPromotionSystem(promotions) {
         const button = document.createElement('button');
         button.className = 'promotion-bubble';
         button.type = 'button';
+        button.style.setProperty('--bubble-accent', getPromotionAccent(promotion.file));
         button.innerHTML = `
             <span class="promotion-bubble-icon" aria-hidden="true">🔥</span>
             <span class="promotion-bubble-name">${name}</span>
