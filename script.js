@@ -3,10 +3,6 @@
    MAIN JAVASCRIPT
 ========================================================= */
 
-/* =========================================================
-   ELEMENT HELPERS
-========================================================= */
-
 const $ = (selector) => document.querySelector(selector);
 
 /* =========================================================
@@ -72,16 +68,11 @@ if (platformGrid) {
 
 let heroRaf = 0;
 
-const clamp = (number, min = 0, max = 1) => {
-    return Math.min(max, Math.max(min, number));
-};
+const clamp = (number, min = 0, max = 1) => Math.min(max, Math.max(min, number));
 
 function updateHero() {
     heroRaf = 0;
-
-    if (!hero) {
-        return;
-    }
+    if (!hero) return;
 
     const rect = hero.getBoundingClientRect();
     const progress = clamp(-rect.top / (hero.offsetHeight * .72));
@@ -96,22 +87,18 @@ function updateHero() {
         text.style.transform = `translate3d(0, ${progress * titleMove}px, 0)`;
         text.style.opacity = 1 - fade;
     }
-
     if (treeLeft) {
         treeLeft.style.transform = `translate3d(${-progress * treeMove}px, ${progress * (mobile ? 12 : 25)}px, 0)`;
         treeLeft.style.opacity = 1 - clamp(progress * 1.15);
     }
-
     if (treeRight) {
         treeRight.style.transform = `translate3d(${progress * treeMove}px, ${progress * (mobile ? 12 : 25)}px, 0)`;
         treeRight.style.opacity = 1 - clamp(progress * 1.15);
     }
-
     if (gateLeft) {
         gateLeft.style.transform = `translate3d(${-progress * gateMove}px, 0, 0)`;
         gateLeft.style.opacity = 1 - clamp(progress * 1.08);
     }
-
     if (gateRight) {
         gateRight.style.transform = `translate3d(${progress * gateMove}px, 0, 0)`;
         gateRight.style.opacity = 1 - clamp(progress * 1.08);
@@ -119,9 +106,7 @@ function updateHero() {
 }
 
 function requestHeroUpdate() {
-    if (!heroRaf) {
-        heroRaf = requestAnimationFrame(updateHero);
-    }
+    if (!heroRaf) heroRaf = requestAnimationFrame(updateHero);
 }
 
 if (hero) {
@@ -160,7 +145,7 @@ if (menuToggle && navigation) {
 }
 
 /* =========================================================
-   GALLERY ELEMENTS
+   GALLERY
 ========================================================= */
 
 const galleryMain = $('#gallery-main');
@@ -179,33 +164,20 @@ let index = 0;
 let timer = null;
 let playing = true;
 
-const imageTitle = (file) => {
-    return file
-        .replace(/\.[^.]+$/, '')
-        .replace(/[-_]+/g, ' ')
-        .replace(/\b\w/g, (character) => character.toUpperCase());
-};
-
-/* =========================================================
-   GALLERY THUMBNAILS
-========================================================= */
+const imageTitle = (file) => file
+    .replace(/\.[^.]+$/, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, (character) => character.toUpperCase());
 
 function buildThumbnailWindow() {
-    if (!thumbsBox) {
-        return;
-    }
-
+    if (!thumbsBox) return;
     thumbsBox.innerHTML = '';
-
-    if (!slides.length) {
-        return;
-    }
+    if (!slides.length) return;
 
     for (let offset = 0; offset < Math.min(4, slides.length); offset++) {
         const imageIndex = (index + offset) % slides.length;
         const image = slides[imageIndex].querySelector('img');
         const thumbnail = document.createElement('button');
-
         thumbnail.className = `thumb${offset === 0 ? ' active' : ''}`;
         thumbnail.type = 'button';
         thumbnail.setAttribute('aria-label', `View ${imageTitle(image.src.split('/').pop())}`);
@@ -215,14 +187,8 @@ function buildThumbnailWindow() {
     }
 }
 
-/* =========================================================
-   GALLERY RENDERING
-========================================================= */
-
 function renderGallery(files) {
-    if (!galleryMain || !dotsBox) {
-        return;
-    }
+    if (!galleryMain || !dotsBox) return;
 
     files.forEach((file) => {
         const name = imageTitle(file);
@@ -230,9 +196,7 @@ function renderGallery(files) {
         const dot = document.createElement('button');
 
         slide.className = 'mySlides fade';
-        slide.innerHTML = `
-            <img src="gallery/${encodeURIComponent(file)}" alt="${name} platform" loading="lazy">
-        `;
+        slide.innerHTML = `<img src="gallery/${encodeURIComponent(file)}" alt="${name} platform" loading="lazy">`;
         galleryMain.insertBefore(slide, prev);
 
         dot.className = 'dot';
@@ -248,16 +212,11 @@ function renderGallery(files) {
     if (slides.length) {
         showSlide(0);
         start();
-        return;
+    } else {
+        if (counter) counter.textContent = '0 / 0';
+        if (title) title.textContent = 'No images yet';
     }
-
-    counter.textContent = '0 / 0';
-    title.textContent = 'No images yet';
 }
-
-/* =========================================================
-   LOAD GALLERY FROM GITHUB
-========================================================= */
 
 async function loadGallery() {
     try {
@@ -265,10 +224,7 @@ async function loadGallery() {
             'https://api.github.com/repos/Kabikesu/Gkingeldorad.us/contents/gallery?ref=main',
             { headers: { Accept: 'application/vnd.github+json' } }
         );
-
-        if (!response.ok) {
-            throw Error('Gallery unavailable');
-        }
+        if (!response.ok) throw Error('Gallery unavailable');
 
         const files = (await response.json())
             .filter((file) => file.type === 'file' && /\.(jpe?g|png|webp|gif)$/i.test(file.name))
@@ -277,37 +233,23 @@ async function loadGallery() {
 
         renderGallery(files);
     } catch (error) {
-        if (counter) {
-            counter.textContent = 'Gallery unavailable';
-        }
-        if (title) {
-            title.textContent = 'Please try again later';
-        }
+        if (counter) counter.textContent = 'Gallery unavailable';
+        if (title) title.textContent = 'Please try again later';
         console.error(error);
     }
 }
 
-/* =========================================================
-   GALLERY SLIDESHOW
-========================================================= */
-
 function showSlide(slideIndex) {
-    if (!slides.length) {
-        return;
-    }
-
+    if (!slides.length) return;
     index = (slideIndex + slides.length) % slides.length;
 
     slides.forEach((slide, number) => {
         slide.style.display = number === index ? 'block' : 'none';
     });
+    dots.forEach((dot, number) => dot.classList.toggle('active', number === index));
 
-    dots.forEach((dot, number) => {
-        dot.classList.toggle('active', number === index);
-    });
-
-    counter.textContent = `${index + 1} / ${slides.length}`;
-    title.textContent = slides[index].querySelector('img').alt.replace(/ platform$/i, '');
+    if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
+    if (title) title.textContent = slides[index].querySelector('img').alt.replace(/ platform$/i, '');
     buildThumbnailWindow();
 }
 
@@ -318,10 +260,7 @@ function stop() {
 
 function start() {
     stop();
-
-    if (slides.length > 1 && playing) {
-        timer = setInterval(() => showSlide(index + 1), 4000);
-    }
+    if (slides.length > 1 && playing) timer = setInterval(() => showSlide(index + 1), 4000);
 }
 
 function setSlide(slideIndex) {
@@ -337,22 +276,14 @@ play?.addEventListener('click', () => {
     play.textContent = playing ? 'Ⅱ' : '▶';
     play.setAttribute('aria-label', playing ? 'Pause automatic slideshow' : 'Play automatic slideshow');
     play.setAttribute('aria-pressed', playing);
-
-    if (playing) {
-        start();
-    } else {
-        stop();
-    }
+    playing ? start() : stop();
 });
 
 gallery?.addEventListener('mouseenter', stop);
 gallery?.addEventListener('mouseleave', start);
 gallery?.addEventListener('focusin', stop);
-
 gallery?.addEventListener('focusout', (event) => {
-    if (!gallery.contains(event.relatedTarget)) {
-        start();
-    }
+    if (!gallery.contains(event.relatedTarget)) start();
 });
 
 loadGallery();
@@ -360,24 +291,14 @@ loadGallery();
 /* =========================================================
    DYNAMIC PLATFORM PROMOTIONS
 
-   Add promotion images to:
-   images/promotions/
-
-   Every image becomes one floating promotion bubble.
-   If the folder has no valid images, no promotion UI is shown.
+   Add promotion images to images/promotions/
+   Every image becomes a floating bubble.
 ========================================================= */
 
 const promotionFolder = 'images/promotions';
 const promotionApi = 'https://api.github.com/repos/Kabikesu/Gkingeldorad.us/contents/images/promotions?ref=main';
 const promotionDelay = 30000;
 
-/*
-   Optional links for promotion images.
-   The key must exactly match the image filename.
-   If no custom link is supplied, the platform URL is used when
-   the promotion filename matches a platform name; otherwise the
-   promotion can still be viewed without a destination link.
-*/
 const promotionLinks = {
     'eldorado-promotion.jpg': 'https://www.eldorado777.co/'
 };
@@ -390,74 +311,78 @@ function promotionName(fileName) {
 }
 
 function getPromotionUrl(fileName) {
-    if (promotionLinks[fileName]) {
-        return promotionLinks[fileName];
-    }
+    if (promotionLinks[fileName]) return promotionLinks[fileName];
 
-    const normalizedFile = fileName
-        .replace(/\.[^.]+$/, '')
-        .replace(/[-_ ]/g, '')
-        .toLowerCase();
-
+    const normalizedFile = fileName.replace(/\.[^.]+$/, '').replace(/[-_ ]/g, '').toLowerCase();
     const matchedPlatform = platforms.find((platform) => {
         const normalizedName = platform.name.replace(/[-_ ]/g, '').toLowerCase();
         return normalizedFile.includes(normalizedName);
     });
-
     return matchedPlatform ? matchedPlatform.url : '';
 }
 
 function addPromotionStyles() {
-    if (document.getElementById('promotion-styles')) {
-        return;
-    }
+    if (document.getElementById('promotion-styles')) return;
 
     const style = document.createElement('style');
     style.id = 'promotion-styles';
     style.textContent = `
         .site-promotion {
             position: fixed;
-            right: 22px;
-            bottom: 22px;
+            inset: 0;
             z-index: 9998;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 10px;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
             font-family: inherit;
         }
 
         .promotion-bubbles {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 9px;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
         .promotion-bubble {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 58px;
-            height: 58px;
-            min-width: 58px;
-            min-height: 58px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: grid;
+            place-items: center;
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            min-height: 60px;
             padding: 0;
-            border: 1px solid rgba(255, 214, 76, .55);
+            border: 1px solid rgba(255, 255, 255, .38);
             border-radius: 50%;
-            background: linear-gradient(135deg, #17131f, #281b35);
+            background:
+                radial-gradient(circle at 30% 24%, rgba(255,255,255,.42) 0 7%, transparent 8%),
+                radial-gradient(circle at 65% 70%, rgba(255,255,255,.08), transparent 55%),
+                linear-gradient(145deg, rgba(255,255,255,.20), rgba(255,190,45,.12));
             color: #fff;
             font: inherit;
             cursor: pointer;
-            box-shadow: 0 14px 35px rgba(0, 0, 0, .35), 0 0 25px rgba(255, 190, 45, .12);
-            animation: promotionPulse 2.4s ease-in-out infinite;
-            transition: transform .2s ease, border-color .2s ease, filter .2s ease;
+            pointer-events: auto;
+            opacity: .72;
+            box-shadow: inset -7px -9px 18px rgba(255, 255, 255, .08), inset 7px 6px 15px rgba(255, 255, 255, .12), 0 10px 30px rgba(0,0,0,.18), 0 0 24px rgba(255,210,90,.10);
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(1px);
+            transform-origin: center;
+            will-change: transform, opacity;
+            animation: promotionWind var(--wind-duration, 18s) linear infinite alternate, promotionBubblePulse 4s ease-in-out infinite;
+            transition: filter .2s ease, border-color .2s ease, opacity .2s ease;
         }
 
-        .promotion-bubble:hover {
-            transform: translateY(-3px) scale(1.06);
-            border-color: rgba(255, 214, 76, .8);
-            filter: brightness(1.08);
+        .promotion-bubble:hover,
+        .promotion-bubble:focus-visible {
+            opacity: 1;
+            border-color: rgba(255, 224, 115, .9);
+            filter: brightness(1.18);
+            animation-play-state: paused;
         }
 
         .promotion-bubble-icon {
@@ -467,6 +392,7 @@ function addPromotionStyles() {
             height: 100%;
             font-size: 1.35rem;
             line-height: 1;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,.25));
         }
 
         .promotion-bubble > span:last-child {
@@ -479,6 +405,29 @@ function addPromotionStyles() {
             clip: rect(0, 0, 0, 0);
             white-space: nowrap;
             border: 0;
+        }
+
+        @keyframes promotionWind {
+            0% {
+                transform: translate3d(var(--x1), var(--y1), 0) rotate(var(--r1)) scale(var(--s1));
+            }
+            25% {
+                transform: translate3d(var(--x2), var(--y2), 0) rotate(var(--r2)) scale(var(--s2));
+            }
+            50% {
+                transform: translate3d(var(--x3), var(--y3), 0) rotate(var(--r3)) scale(var(--s3));
+            }
+            75% {
+                transform: translate3d(var(--x4), var(--y4), 0) rotate(var(--r4)) scale(var(--s4));
+            }
+            100% {
+                transform: translate3d(var(--x5), var(--y5), 0) rotate(var(--r5)) scale(var(--s5));
+            }
+        }
+
+        @keyframes promotionBubblePulse {
+            0%, 100% { box-shadow: inset -7px -9px 18px rgba(255,255,255,.08), inset 7px 6px 15px rgba(255,255,255,.12), 0 10px 30px rgba(0,0,0,.18), 0 0 18px rgba(255,210,90,.07); }
+            50% { box-shadow: inset -7px -9px 18px rgba(255,255,255,.13), inset 7px 6px 15px rgba(255,255,255,.18), 0 13px 34px rgba(0,0,0,.22), 0 0 30px rgba(255,210,90,.17); }
         }
 
         .promotion-overlay {
@@ -516,9 +465,7 @@ function addPromotionStyles() {
             transition: transform .3s ease;
         }
 
-        .promotion-overlay.open .promotion-modal {
-            transform: translateY(0) scale(1);
-        }
+        .promotion-overlay.open .promotion-modal { transform: translateY(0) scale(1); }
 
         .promotion-image-wrap {
             position: relative;
@@ -553,39 +500,12 @@ function addPromotionStyles() {
             transition: background .2s ease, transform .2s ease;
         }
 
-        .promotion-close:hover {
-            background: rgba(7, 8, 12, .96);
-            transform: rotate(4deg) scale(1.05);
-        }
+        .promotion-close:hover { background: rgba(7, 8, 12, .96); transform: rotate(4deg) scale(1.05); }
 
-        .promotion-content {
-            padding: 18px 20px 20px;
-            text-align: center;
-        }
-
-        .promotion-kicker {
-            margin: 0 0 5px;
-            color: #f5c84b;
-            font-size: .68rem;
-            font-weight: 900;
-            letter-spacing: .16em;
-            text-transform: uppercase;
-        }
-
-        .promotion-title {
-            margin: 0;
-            color: #fff;
-            font-size: 1.5rem;
-            font-weight: 900;
-        }
-
-        .promotion-description {
-            margin: 7px 0 15px;
-            color: #aab1bd;
-            font-size: .84rem;
-            line-height: 1.55;
-        }
-
+        .promotion-content { padding: 18px 20px 20px; text-align: center; }
+        .promotion-kicker { margin: 0 0 5px; color: #f5c84b; font-size: .68rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+        .promotion-title { margin: 0; color: #fff; font-size: 1.5rem; font-weight: 900; }
+        .promotion-description { margin: 7px 0 15px; color: #aab1bd; font-size: .84rem; line-height: 1.55; }
         .promotion-action {
             display: flex;
             align-items: center;
@@ -603,73 +523,63 @@ function addPromotionStyles() {
             box-shadow: 0 10px 28px rgba(224, 169, 30, .2);
             transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
         }
-
-        .promotion-action:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.07);
-            box-shadow: 0 14px 32px rgba(224, 169, 30, .3);
-        }
-
-        @keyframes promotionPulse {
-            0%, 100% { box-shadow: 0 14px 35px rgba(0, 0, 0, .35), 0 0 20px rgba(255, 190, 45, .08); }
-            50% { box-shadow: 0 14px 35px rgba(0, 0, 0, .35), 0 0 32px rgba(255, 190, 45, .22); }
-        }
+        .promotion-action:hover { transform: translateY(-2px); filter: brightness(1.07); box-shadow: 0 14px 32px rgba(224, 169, 30, .3); }
 
         @media (max-width: 520px) {
-            .site-promotion {
-                right: 14px;
-                bottom: 14px;
-            }
-
-            .promotion-bubble {
-                width: 52px;
-                height: 52px;
-                min-width: 52px;
-                min-height: 52px;
-            }
-
-            .promotion-bubble-icon {
-                font-size: 1.2rem;
-            }
-
-            .promotion-overlay {
-                padding: 12px;
-            }
-
-            .promotion-modal {
-                width: min(420px, 96vw);
-                border-radius: 19px;
-            }
-
-            .promotion-image-wrap,
-            .promotion-image {
-                max-height: 70vh;
-            }
-
-            .promotion-content {
-                padding: 15px;
-            }
+            .promotion-bubble { width: 48px; height: 48px; min-width: 48px; min-height: 48px; }
+            .promotion-bubble-icon { font-size: 1.15rem; }
+            .promotion-overlay { padding: 12px; }
+            .promotion-modal { width: min(420px, 96vw); border-radius: 19px; }
+            .promotion-image-wrap, .promotion-image { max-height: 70vh; }
+            .promotion-content { padding: 15px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .promotion-bubble,
-            .promotion-overlay,
-            .promotion-modal,
-            .promotion-action,
-            .promotion-close {
-                animation: none;
-                transition: none;
-            }
+            .promotion-bubble { animation: none; }
+            .promotion-overlay, .promotion-modal, .promotion-action, .promotion-close { transition: none; }
         }
     `;
-
     document.head.appendChild(style);
 }
 
-function createPromotionUI(promotions) {
-    if (!promotions.length || document.querySelector('.site-promotion')) {
-        return;
+function randomBetween(min, max) {
+    return Math.round((min + Math.random() * (max - min)) * 10) / 10;
+}
+
+function setBubblePath(button, index) {
+    const vw = Math.max(window.innerWidth, 320);
+    const vh = Math.max(window.innerHeight, 500);
+    const size = window.innerWidth <= 520 ? 48 : 60;
+    const maxX = Math.max(0, vw - size - 8);
+    const maxY = Math.max(0, vh - size - 8);
+    const padX = Math.min(24, maxX / 3);
+    const padY = Math.min(24, maxY / 3);
+
+    const x = () => randomBetween(padX, Math.max(padX, maxX - padX));
+    const y = () => randomBetween(padY, Math.max(padY, maxY - padY));
+
+    button.style.setProperty('--x1', `${x()}px`);
+    button.style.setProperty('--y1', `${y()}px`);
+    button.style.setProperty('--x2', `${x()}px`);
+    button.style.setProperty('--y2', `${y()}px`);
+    button.style.setProperty('--x3', `${x()}px`);
+    button.style.setProperty('--y3', `${y()}px`);
+    button.style.setProperty('--x4', `${x()}px`);
+    button.style.setProperty('--y4', `${y()}px`);
+    button.style.setProperty('--x5', `${x()}px`);
+    button.style.setProperty('--y5', `${y()}px`);
+
+    for (let point = 1; point <= 5; point++) {
+        button.style.setProperty(`--r${point}`, `${randomBetween(-18, 18)}deg`);
+        button.style.setProperty(`--s${point}`, randomBetween(.76, 1.22));
     }
+
+    button.style.setProperty('--wind-duration', `${randomBetween(15 + index * 1.5, 24 + index * 2)}s`);
+    button.style.animationDelay = `${randomBetween(-10, 0)}s, ${randomBetween(-4, 0)}s`;
+}
+
+function createPromotionUI(promotions) {
+    if (!promotions.length || document.querySelector('.site-promotion')) return;
 
     addPromotionStyles();
 
@@ -699,6 +609,7 @@ function createPromotionUI(promotions) {
             <span>${promotionName(promotion.file)}</span>
         `;
         button.setAttribute('aria-label', `Open ${promotionName(promotion.file)} promotion`);
+        setBubblePath(button, promotionIndex);
         button.addEventListener('click', () => openPromotion(promotionIndex));
         bubbles.appendChild(button);
     });
@@ -727,7 +638,6 @@ function createPromotionUI(promotions) {
                 ${url ? `<a class="promotion-action" href="${url}" target="_blank" rel="noopener noreferrer">VISIT PLATFORM →</a>` : ''}
             </div>
         `;
-
         modal.querySelector('.promotion-close').addEventListener('click', closePromotion);
     }
 
@@ -746,21 +656,19 @@ function createPromotionUI(promotions) {
     }
 
     overlay.addEventListener('click', (event) => {
-        if (event.target === overlay) {
-            closePromotion();
-        }
+        if (event.target === overlay) closePromotion();
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && overlay.classList.contains('open')) {
-            closePromotion();
-        }
+        if (event.key === 'Escape' && overlay.classList.contains('open')) closePromotion();
+    });
+
+    addEventListener('resize', () => {
+        bubbles.querySelectorAll('.promotion-bubble').forEach((button, index) => setBubblePath(button, index));
     });
 
     setTimeout(() => {
-        if (!overlay.classList.contains('open')) {
-            openPromotion(0);
-        }
+        if (!overlay.classList.contains('open')) openPromotion(0);
     }, promotionDelay);
 }
 
@@ -769,10 +677,7 @@ async function loadPromotions() {
         const response = await fetch(promotionApi, {
             headers: { Accept: 'application/vnd.github+json' }
         });
-
-        if (!response.ok) {
-            return;
-        }
+        if (!response.ok) return;
 
         const files = await response.json();
         const promotions = files
@@ -782,9 +687,7 @@ async function loadPromotions() {
                 imageUrl: `${promotionFolder}/${encodeURIComponent(file.name)}`
             }));
 
-        if (promotions.length) {
-            createPromotionUI(promotions);
-        }
+        if (promotions.length) createPromotionUI(promotions);
     } catch (error) {
         console.info('No promotions available.');
     }
