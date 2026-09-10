@@ -231,6 +231,9 @@ function addPromotionStyles() {
     style.textContent = `
         .site-promotion { position: fixed; inset: 0; z-index: 9998; width: 100vw; height: 100vh; pointer-events: none; overflow: hidden; font-family: inherit; }
         .promotion-bubbles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        .promotion-collection { position:absolute; left:0; right:0; bottom:0; height:clamp(70px,11vh,130px); pointer-events:none; overflow:visible; z-index:0; }
+        .promotion-collected-drop { position:absolute; bottom:-8px; display:grid; place-items:center; width:24px; height:24px; font-size:18px; line-height:1; opacity:.96; filter:drop-shadow(0 2px 3px rgba(0,0,0,.42)); transform-origin:center bottom; animation:promotionCollectSettle .42s cubic-bezier(.2,.85,.25,1) both; }
+        .promotion-collection::before { content:''; position:absolute; left:0; right:0; bottom:-18px; height:62%; background:radial-gradient(ellipse at center bottom,rgba(229,189,82,.24),transparent 68%); pointer-events:none; }
         .promotion-bubble { --bubble-accent:#e5bd52; position:absolute; top:0; left:0; display:grid; place-items:center; width:60px; height:60px; min-width:60px; min-height:60px; padding:0; border:1px solid color-mix(in srgb,var(--bubble-accent) 72%,white 28%); border-radius:50%; background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.52) 0 7%,transparent 8%),radial-gradient(circle at 65% 70%,color-mix(in srgb,var(--bubble-accent) 45%,transparent),transparent 58%),linear-gradient(145deg,rgba(255,255,255,.20),color-mix(in srgb,var(--bubble-accent) 48%,transparent)); color:#fff; font:inherit; cursor:pointer; pointer-events:auto; opacity:.76; box-shadow:inset -7px -9px 18px rgba(255,255,255,.08),inset 7px 6px 15px rgba(255,255,255,.13),0 10px 30px rgba(0,0,0,.18),0 0 24px color-mix(in srgb,var(--bubble-accent) 48%,transparent); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); transform-origin:center; will-change:transform,opacity; animation:promotionWind var(--wind-duration,18s) linear infinite alternate,promotionBubblePulse 4s ease-in-out infinite; transition:filter .2s ease,border-color .2s ease,opacity .2s ease,box-shadow .2s ease; }
         .promotion-bubble:hover,.promotion-bubble:focus-visible { opacity:.98; border-color:#fff; filter:brightness(1.14) saturate(1.12); box-shadow:inset -7px -9px 18px rgba(255,255,255,.12),inset 7px 6px 15px rgba(255,255,255,.16),0 12px 34px rgba(0,0,0,.22),0 0 34px color-mix(in srgb,var(--bubble-accent) 75%,transparent); animation-play-state:paused,paused; outline:none; }
         .promotion-bubble-icon { position:relative; z-index:2; display:grid; place-items:center; font-size:1.25rem; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,.25)); }
@@ -242,10 +245,7 @@ function addPromotionStyles() {
         .promotion-bubble.sparkle-now .promotion-sparkle { animation:promotionSparkle .72s cubic-bezier(.2,.8,.2,1) both; }
         .promotion-bubble.sparkle-now .promotion-bubble-icon { animation:promotionIconFlash .72s ease both; }
         .promotion-bubble-name { position:absolute; left:50%; bottom:-25px; transform:translateX(-50%); width:max-content; max-width:130px; padding:4px 8px; border:1px solid color-mix(in srgb,var(--bubble-accent) 60%,white 40%); border-radius:999px; background:color-mix(in srgb,var(--bubble-accent) 32%,rgba(8,10,15,.76)); color:rgba(255,255,255,.96); font-size:.58rem; font-weight:800; line-height:1; letter-spacing:.02em; white-space:nowrap; text-align:center; pointer-events:none; text-shadow:0 1px 4px rgba(0,0,0,.45); box-shadow:0 0 12px color-mix(in srgb,var(--bubble-accent) 35%,transparent); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
-        .promotion-drop { position:absolute; z-index:1; top:50%; left:50%; display:grid; place-items:center; width:18px; height:18px; margin:-9px 0 0 -9px; pointer-events:none; font-size:13px; line-height:1; opacity:0; filter:drop-shadow(0 2px 3px rgba(0,0,0,.35)); animation:promotionDropFall var(--drop-duration,2.2s) cubic-bezier(.22,.68,.25,1) var(--drop-delay,0s) infinite; }
-        .promotion-drop:nth-child(2n) { font-size:11px; }
-        .promotion-drop:nth-child(3n) { font-size:15px; }
-        .promotion-bubble:hover .promotion-drop,.promotion-bubble:focus-visible .promotion-drop { animation-play-state:paused; }
+        .promotion-drop { display:none; }
         .promotion-modal { position:fixed; inset:0; display:grid; place-items:center; padding:24px; background:rgba(0,0,0,.76); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .25s ease,visibility .25s ease; }
         .promotion-modal.open { opacity:1; visibility:visible; pointer-events:auto; }
         .promotion-dialog { position:relative; width:min(92vw,820px); max-height:90vh; overflow:auto; padding:12px; border:1px solid rgba(255,255,255,.2); border-radius:20px; background:rgba(12,13,18,.94); box-shadow:0 30px 80px rgba(0,0,0,.55); }
@@ -258,9 +258,10 @@ function addPromotionStyles() {
         @keyframes promotionBubblePulse { 0%,100%{opacity:.64;} 50%{opacity:.86;} }
         @keyframes promotionSparkle { 0%{opacity:0;transform:translate(-50%,-50%) scale(.15) rotate(-25deg);} 18%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(5deg);} 55%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(15deg);} 100%{opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(35deg);} }
         @keyframes promotionIconFlash { 0%,100%{transform:scale(1);} 25%{transform:scale(1.18);} 55%{transform:scale(1.05);} }
-        @keyframes promotionDropFall { 0%{opacity:0;transform:translate3d(var(--drop-x),-8px,0) rotate(0deg) scale(.55);} 12%{opacity:.95;} 72%{opacity:.78;transform:translate3d(calc(var(--drop-x) * .65),42px,0) rotate(var(--drop-rotate)) scale(1);} 100%{opacity:0;transform:translate3d(calc(var(--drop-x) * .35),72px,0) rotate(calc(var(--drop-rotate) * 1.35)) scale(.72);} }
-        @media(max-width:520px){ .promotion-bubble{width:48px;height:48px;min-width:48px;min-height:48px;} .promotion-bubble-icon{font-size:1rem;} .promotion-sparkle{font-size:.9rem;} .promotion-bubble-name{bottom:-22px;max-width:105px;font-size:.52rem;padding:3px 6px;} .promotion-drop{font-size:11px;width:15px;height:15px;margin:-7px 0 0 -7px;} .promotion-modal{padding:12px;} .promotion-dialog{width:96vw;border-radius:15px;padding:8px;} .promotion-open-link{padding:10px 12px;font-size:.8rem;} }
-        @media(prefers-reduced-motion:reduce){ .promotion-bubble{animation:none;} .promotion-bubble.sparkle-now .promotion-sparkle{animation:none;opacity:1;} .promotion-drop{animation:none;opacity:0;} }
+        @keyframes promotionCollectFall { 0%{opacity:0;transform:translate3d(0,0,0) rotate(0deg) scale(.55);} 10%{opacity:1;} 78%{opacity:.96;transform:translate3d(var(--fall-drift),calc(var(--fall-distance) * .78),0) rotate(var(--fall-rotate)) scale(1);} 100%{opacity:1;transform:translate3d(calc(var(--fall-drift) * .55),var(--fall-distance),0) rotate(calc(var(--fall-rotate) * 1.25)) scale(.88);} }
+        @keyframes promotionCollectSettle { 0%{transform:translateY(-12px) scale(.72) rotate(-8deg);opacity:0;} 65%{transform:translateY(2px) scale(1.08) rotate(3deg);opacity:1;} 100%{transform:translateY(0) scale(1) rotate(0deg);opacity:.96;} }
+        @media(max-width:520px){ .promotion-bubble{width:48px;height:48px;min-width:48px;min-height:48px;} .promotion-bubble-icon{font-size:1rem;} .promotion-sparkle{font-size:.9rem;} .promotion-bubble-name{bottom:-22px;max-width:105px;font-size:.52rem;padding:3px 6px;} .promotion-modal{padding:12px;} .promotion-dialog{width:96vw;border-radius:15px;padding:8px;} .promotion-open-link{padding:10px 12px;font-size:.8rem;} .promotion-collected-drop{width:18px;height:18px;font-size:14px;} }
+        @media(prefers-reduced-motion:reduce){ .promotion-bubble{animation:none;} .promotion-bubble.sparkle-now .promotion-sparkle{animation:none;opacity:1;} .promotion-drop{display:none;} }
     `;
     document.head.appendChild(style);
 }
@@ -274,21 +275,64 @@ function setBubblePath(button,bubbleIndex){
     for(let point=1;point<=5;point++){ button.style.setProperty(`--r${point}`,`${randomBetween(-18,18)}deg`); button.style.setProperty(`--s${point}`,randomBetween(.76,1.22)); }
     button.style.setProperty('--wind-duration',`${randomBetween(15+bubbleIndex*1.5,24+bubbleIndex*2)}s`); button.style.animationDelay=`${randomBetween(-10,0)}s,${randomBetween(-4,0)}s`;
 }
-function addBubbleDrops(button,bubbleIndex){
-    const fragment=document.createDocumentFragment();
-    const count=2+Math.floor(Math.random()*3);
-    for(let i=0;i<count;i++){
+
+function addBubbleDrops(button,bubbleIndex,root,collection){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    let dropTimer=null;
+    const spawnDrop=()=>{
+        if(!document.body.contains(button))return;
+        const rect=button.getBoundingClientRect();
         const drop=document.createElement('span');
-        drop.className='promotion-drop';
+        drop.className='promotion-drop-flight';
         drop.setAttribute('aria-hidden','true');
-        drop.textContent=dropSymbols[(bubbleIndex+i)%dropSymbols.length];
-        drop.style.setProperty('--drop-x',`${randomBetween(-16,16)}px`);
-        drop.style.setProperty('--drop-rotate',`${randomBetween(-220,220)}deg`);
-        drop.style.setProperty('--drop-duration',`${randomBetween(1.8,3.1)}s`);
-        drop.style.setProperty('--drop-delay',`${randomBetween(-3.1,0)}s`);
-        fragment.appendChild(drop);
-    }
-    button.appendChild(fragment);
+        drop.textContent=dropSymbols[(bubbleIndex+Math.floor(Math.random()*dropSymbols.length))%dropSymbols.length];
+        drop.style.position='absolute';
+        drop.style.left=`${rect.left+rect.width/2}px`;
+        drop.style.top=`${rect.top+rect.height*.62}px`;
+        drop.style.zIndex='2';
+        drop.style.width='22px';
+        drop.style.height='22px';
+        drop.style.margin='-11px 0 0 -11px';
+        drop.style.display='grid';
+        drop.style.placeItems='center';
+        drop.style.pointerEvents='none';
+        drop.style.fontSize=window.innerWidth<=520?'14px':'18px';
+        drop.style.lineHeight='1';
+        drop.style.filter='drop-shadow(0 2px 3px rgba(0,0,0,.42))';
+        const targetY=Math.max(20,window.innerHeight-10);
+        const fallDistance=Math.max(120,targetY-(rect.top+rect.height*.62));
+        drop.style.setProperty('--fall-distance',`${fallDistance}px`);
+        drop.style.setProperty('--fall-drift',`${randomBetween(-90,90)}px`);
+        drop.style.setProperty('--fall-rotate',`${randomBetween(-360,360)}deg`);
+        drop.style.animation=`promotionCollectFall ${randomBetween(1.7,2.8)}s cubic-bezier(.22,.68,.25,1) both`;
+        root.appendChild(drop);
+        drop.addEventListener('animationend',()=>{
+            if(!drop.isConnected)return;
+            drop.remove();
+            collectDrop(collection,drop.textContent);
+        },{once:true});
+        dropTimer=setTimeout(spawnDrop,randomBetween(2400,4600));
+    };
+    dropTimer=setTimeout(spawnDrop,900+Math.random()*1800);
+    addEventListener('beforeunload',()=>clearTimeout(dropTimer),{once:true});
+}
+
+function collectDrop(collection,symbol){
+    const item=document.createElement('span');
+    item.className='promotion-collected-drop';
+    item.setAttribute('aria-hidden','true');
+    item.textContent=symbol;
+    const width=window.innerWidth;
+    const pileHeight=Math.min(105,Math.max(50,window.innerHeight*.095));
+    const left=Math.max(4,Math.min(width-28,Math.random()*(width-28)));
+    const bottom=4+Math.random()*pileHeight;
+    item.style.left=`${left}px`;
+    item.style.bottom=`${bottom}px`;
+    item.style.zIndex=String(2+Math.floor(bottom));
+    item.style.transform=`rotate(${randomBetween(-28,28)}deg) scale(${randomBetween(.72,1.12)})`;
+    collection.appendChild(item);
+    const maxCollected=220;
+    while(collection.children.length>maxCollected)collection.firstElementChild?.remove();
 }
 
 function startBubbleSparkles(bubbles){
@@ -316,9 +360,9 @@ function createPromotionSystem(promotions){
     addPromotionStyles();
     const root=document.createElement('div');
     root.className='site-promotion';
-    root.innerHTML=`<div class="promotion-bubbles" aria-label="Promotions"></div><div class="promotion-modal" aria-hidden="true"><div class="promotion-dialog" role="dialog" aria-modal="true" aria-label="Promotion"><button class="promotion-close" type="button" aria-label="Close promotion">×</button><img class="promotion-image" src="" alt="Promotion"><a class="promotion-open-link" href="#" target="_blank" rel="noopener noreferrer">OPEN PLATFORM →</a></div></div>`;
+    root.innerHTML=`<div class="promotion-bubbles" aria-label="Promotions"></div><div class="promotion-collection" aria-hidden="true"></div><div class="promotion-modal" aria-hidden="true"><div class="promotion-dialog" role="dialog" aria-modal="true" aria-label="Promotion"><button class="promotion-close" type="button" aria-label="Close promotion">×</button><img class="promotion-image" src="" alt="Promotion"><a class="promotion-open-link" href="#" target="_blank" rel="noopener noreferrer">OPEN PLATFORM →</a></div></div>`;
     document.body.appendChild(root);
-    const bubbles=root.querySelector('.promotion-bubbles'), overlay=root.querySelector('.promotion-modal'), modal=root.querySelector('.promotion-dialog'), image=root.querySelector('.promotion-image'), closeButton=root.querySelector('.promotion-close'), openLink=root.querySelector('.promotion-open-link');
+    const bubbles=root.querySelector('.promotion-bubbles'), collection=root.querySelector('.promotion-collection'), overlay=root.querySelector('.promotion-modal'), modal=root.querySelector('.promotion-dialog'), image=root.querySelector('.promotion-image'), closeButton=root.querySelector('.promotion-close'), openLink=root.querySelector('.promotion-open-link');
     let currentPromotion=0, autoPromotionIndex=0, autoTimer=null, autoOpening=false;
 
     function renderPromotion(promotionIndex){
@@ -343,8 +387,8 @@ function createPromotionSystem(promotions){
         const symbol=bubbleSymbols[bubbleIndex % bubbleSymbols.length];
         button.className='promotion-bubble'; button.type='button'; button.style.setProperty('--bubble-accent',getPromotionAccent(promotion.file));
         button.innerHTML=`<span class="promotion-bubble-icon" aria-hidden="true"><span class="promotion-bubble-symbol">${symbol}</span><span class="promotion-sparkle" aria-hidden="true">✦</span></span><span class="promotion-bubble-name">${name}</span>`;
-        addBubbleDrops(button,bubbleIndex);
         button.setAttribute('aria-label',`Open ${name} promotion`); setBubblePath(button,bubbleIndex); button.addEventListener('click',()=>openPromotion(promotionIndex)); bubbles.appendChild(button); bubbleNodes.push(button);
+        addBubbleDrops(button,bubbleIndex,root,collection);
     }
     startBubbleSparkles(bubbleNodes);
     closeButton.addEventListener('click',closePromotion);
